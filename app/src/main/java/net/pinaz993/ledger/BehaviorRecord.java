@@ -10,6 +10,7 @@ import android.arch.persistence.room.ForeignKey;
 
 @Entity(
         tableName = "BehaviorRecords",
+        primaryKeys = {"studentId", "classId", "behaviorId", "timeStamp"},
         foreignKeys = {
                 @ForeignKey(entity = Student.class, parentColumns = "id", childColumns = "studentId"),
                 @ForeignKey(entity = Behavior.class, parentColumns = "id", childColumns = "behaviorId")

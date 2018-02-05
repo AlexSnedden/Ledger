@@ -17,4 +17,8 @@ public class Behavior {
 
     public int positivity;
 
+    public int getPositivity() {
+        return positivity;
+    }
+
 }

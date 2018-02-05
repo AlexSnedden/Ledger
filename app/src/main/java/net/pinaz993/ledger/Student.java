@@ -13,4 +13,6 @@ public class Student {
     public String id;
 
     public String firstName, lastName, emailAddress;
+
+    public String getFullName() {return firstName + " " + lastName;}
 }

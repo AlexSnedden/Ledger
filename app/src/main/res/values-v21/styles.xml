@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
+    <style name="SwitchRedGreen" parent="AppTheme">
+        <item name="android:thumbTint">@color/thumb_colors</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorSecondaryAccent</item>
-    </style>
-
-    <!--theme for switches of Red and Green-->
-    <style name="SwitchRedGreen" parent="AppTheme">
+        <item name="android:colorControlActivated">@color/colorSecondaryAccent</item>
     </style>
 </resources>

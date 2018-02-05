@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
+    app:dragEdge="right"
+    tools:context="net.pinaz993.ledger.StudentPaneAdapter">
+
+    <!--Bottom Layout-->
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="end|center_vertical"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
+        <!--TODO: Make these buttons conform to Material guidelines-->
+
+        <ToggleButton
+            android:id="@+id/excusedBtn"
+            android:theme="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textOff="@string/excusedTxt"
+            android:textOn="@string/excusedTxt"/>
+
+        <ToggleButton
+            android:id="@+id/earlyDepartureBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textOff="@string/earlyDepartureTxt"
+            android:textOn="@string/earlyDepartureTxt" />
+
+        <ToggleButton
+            android:id="@+id/lateArrivalBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textOff="@string/lateArrivalTxt"
+            android:textOn="@string/lateArrivalTxt" />
+    </LinearLayout>
+
+    <!--Top Layout-->
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/studentNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".15"
+            android:gravity="center_vertical"
+            android:text="@string/invalidStudentTxt"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+        <Switch
+            android:id="@+id/absentPresentSwitch"
+            style="@style/SwitchRedGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".85"
+            android:gravity="center_vertical"
+            android:textOff=''
+            android:textOn='' />
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

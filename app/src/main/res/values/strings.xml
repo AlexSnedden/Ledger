@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Ledger</string>
+    <string name="excusedTxt">Excused</string>
+    <string name="earlyDepartureTxt">Early Departure</string>
+    <string name="lateArrivalTxt">Late Arrival</string>
+    <string name="invalidStudentTxt">Invalid Student</string>
 </resources>

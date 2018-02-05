@@ -78,7 +78,7 @@ public class SettingsHandler {
         instance = this; // UGH! This is even dirtier than a singleton!
     }
 
-    public static SettingsHandler getInstance() {
+    static SettingsHandler getInstance() {
         return instance;
     }
 
@@ -107,15 +107,15 @@ public class SettingsHandler {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, b);
     }
 
-    public boolean isDaily() {
+    boolean isDaily() {
         return daily;
     }
 
-    public boolean isWeekly() {
+    boolean isWeekly() {
         return weekly;
     }
 
-    public Duration getAttendanceIntervalDuration() {
+    Duration getAttendanceIntervalDuration() {
         return attendanceIntervalDuration;
     }
 

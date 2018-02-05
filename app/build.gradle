@@ -26,4 +26,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+    implementation 'joda-time:joda-time:2.9.9'
 }

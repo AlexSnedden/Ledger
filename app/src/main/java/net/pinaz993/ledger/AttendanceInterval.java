@@ -1,10 +1,13 @@
 package net.pinaz993.ledger;
 
+import android.arch.persistence.room.Entity;
+
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
+@Entity
 public class AttendanceInterval{
 
     Duration duration;

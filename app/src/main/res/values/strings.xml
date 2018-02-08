@@ -9,4 +9,5 @@
     <string name="attendance_mode_daily">DAILY</string>
     <string name="attendance_mode_weekly">WEEKLY</string>
     <string name="is_first_time_launch">IS_FIRST_TIME_LAUNCH</string>
+    <string name="title_activity_loading">LoadingActivity</string>
 </resources>

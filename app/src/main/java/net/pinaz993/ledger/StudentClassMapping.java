@@ -2,6 +2,7 @@ package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.support.annotation.NonNull;
 
 /**Room entity object to track which students are in which classes. A decidedly inelegant solution,
  * but one that does it's job. The table can be queried to find a list of student that are in a
@@ -14,7 +15,7 @@ import android.arch.persistence.room.ForeignKey;
         foreignKeys = @ForeignKey(entity = Student.class, parentColumns = "id", childColumns = "studentId")
 )
 public class StudentClassMapping {
-
+    @NonNull
     public String studentId, classId;
 
 }

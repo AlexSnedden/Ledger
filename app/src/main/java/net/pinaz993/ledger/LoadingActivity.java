@@ -29,5 +29,15 @@ public class LoadingActivity extends AppCompatActivity {
 
         dh.studentClassMappingDatabase = StudentClassMappingDatabase.getDb(context);
         dh.studentClassMappingDao = dh.studentClassMappingDatabase.getDao();
+
+        Student student =  new Student();
+        dh.studentDao.clearTable();
+        student.setId("abc");
+        student.setFirstName("Bump");
+        student.setLastName("Boom");
+        student.setEmailAddress("zoom");
+        dh.studentDao.addStudent(student);
+        Student retrievedStudent = dh.studentDao.getStudent(student.id);
+        Log.v("tag" ,String.format("%s", retrievedStudent.getFirstName()));
     }
 }

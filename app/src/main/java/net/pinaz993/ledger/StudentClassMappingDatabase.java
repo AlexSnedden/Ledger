@@ -9,7 +9,7 @@ import android.content.Context;
  * Created by A.J. on 2/8/18.
  */
 
-@Database(entities = {StudentClassMapping.class}, version = 1)
+@Database(entities = {StudentClassMapping.class, Student.class}, version = 1)
 public abstract class StudentClassMappingDatabase extends RoomDatabase {
     public abstract StudentClassMappingDao getDao();
     public static StudentClassMappingDatabase getDb(Context context) {

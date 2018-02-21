@@ -14,7 +14,44 @@ public class Student {
     @PrimaryKey
     public String id;
 
-    public String firstName, lastName, emailAddress;
+    String firstName;
 
-    public String getFullName() {return firstName + " " + lastName;}
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    String lastName;
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    String emailAddress;
+
+    String getFullName() {return firstName + " " + lastName;}
 }

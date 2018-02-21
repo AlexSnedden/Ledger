@@ -13,6 +13,7 @@ import android.arch.persistence.room.Query;
 public interface StudentDao {
     String getStudentQuery = "SELECT * FROM Students WHERE id = :studentId LIMIT 1;";
     String clearTableQuery = "DELETE FROM Students";
+    String getAllStudentsQuery = "SELECT * FROM Students";
 
     /* Deletes all entry from the database */
     @Query(clearTableQuery)
@@ -25,5 +26,8 @@ public interface StudentDao {
     /* Retrieves information for a student in the database */
     @Query(getStudentQuery)
     Student getStudent(String studentId);
+
+    @Query(getAllStudentsQuery)
+    Student[] getAllStudents();
 
 }

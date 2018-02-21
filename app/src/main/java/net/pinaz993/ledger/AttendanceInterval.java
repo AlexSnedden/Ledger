@@ -1,18 +1,20 @@
 package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
-@Entity
+
 public class AttendanceInterval{
 
     Duration duration;
     Instant start;
     Interval interval;
+    @Ignore
     private static SettingsHandler settings = SettingsHandler.getInstance();
 
     public static long getCurrentStart(){

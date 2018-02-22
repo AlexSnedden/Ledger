@@ -20,9 +20,12 @@ public class LoadingActivity extends AppCompatActivity {
         Context context = getApplicationContext();
 
         LedgerDatabase.setInstance(Room.databaseBuilder(getApplicationContext(),
-                                   LedgerDatabase.class, "ledger_db").build());
+                                   LedgerDatabase.class, "ledger_db").allowMainThreadQueries().build());
 
         Intent redirect = new Intent(this, AddStudentActivity.class);
+
+        // JUST FOR DEV PURPOSES REMOVE THIS HOLY CRAP
+        LedgerDatabase.getDb().getStudentDao().clearTable();
 
         startActivity(redirect);
     }

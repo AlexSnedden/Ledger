@@ -10,6 +10,7 @@ import android.arch.persistence.room.RoomDatabase;
                                    Attendance.class, Classes.class})
 public abstract class LedgerDatabase extends RoomDatabase {
     private static LedgerDatabase instance = null;
+    public abstract StudentDao getStudentDao();
     static void setInstance(LedgerDatabase db) {
         instance = db;
     }

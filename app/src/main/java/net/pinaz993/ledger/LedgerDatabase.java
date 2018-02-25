@@ -7,10 +7,11 @@ import android.arch.persistence.room.RoomDatabase;
  * Created by A.J. on 2/21/18.
  */
 @Database(version = 1, entities = {Student.class, Behavior.class, StudentClassMapping.class,
-                                   Attendance.class, Classes.class})
+                                   Attendance.class, Class.class})
 public abstract class LedgerDatabase extends RoomDatabase {
     private static LedgerDatabase instance = null;
     public abstract StudentDao getStudentDao();
+    public abstract ClassDao getClassDao();
     static void setInstance(LedgerDatabase db) {
         instance = db;
     }

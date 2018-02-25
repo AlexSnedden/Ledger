@@ -8,9 +8,13 @@ import android.support.annotation.NonNull;
  * Created by A.J. on 2/21/18.
  */
 
-@Entity
-public class Classes {
+@Entity(tableName = "Classes")
+public class Class {
     @PrimaryKey
     @NonNull
     String id;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

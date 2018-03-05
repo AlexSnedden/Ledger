@@ -32,5 +32,9 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
     implementation 'joda-time:joda-time:2.9.9'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 }
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

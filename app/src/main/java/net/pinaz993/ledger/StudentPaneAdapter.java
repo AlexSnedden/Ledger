@@ -38,7 +38,7 @@ public class StudentPaneAdapter extends ArrayAdapter {
     private final LayoutInflater inflater;
     private final ViewBinderHelper binderHelper;
 
-    public StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects) {
+    StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects) {
         super(context, R.layout.student_pane_template, objects);
         inflater = LayoutInflater.from(getContext());
         binderHelper = new ViewBinderHelper();

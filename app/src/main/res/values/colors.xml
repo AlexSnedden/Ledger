@@ -13,4 +13,5 @@
     <color name="colorBehaviorPositive">#66ff66</color>
     <color name="colorBehaviorNeutral">#999999</color>
     <color name="colorBehaviorNegative">#ff6666</color>
+    <color name="color_primary_dark">#999999</color>
 </resources>

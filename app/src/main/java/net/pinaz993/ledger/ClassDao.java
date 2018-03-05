@@ -16,4 +16,6 @@ public interface ClassDao {
     void addClass(Class newClass);
     @Query(clearTableQuery)
     void clearTable();
+
+
 }

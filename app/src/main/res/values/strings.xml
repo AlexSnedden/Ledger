@@ -10,4 +10,7 @@
     <string name="attendance_mode_weekly">WEEKLY</string>
     <string name="is_first_time_launch">IS_FIRST_TIME_LAUNCH</string>
     <string name="title_activity_loading">LoadingActivity</string>
+    <string name="list_classes_txt">List Classes</string>
+    <string name="class_id_key">CLASS_ID</string>
+    <string name="arrow">Just an arrow.</string>
 </resources>

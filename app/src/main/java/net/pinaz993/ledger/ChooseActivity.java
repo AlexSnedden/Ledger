@@ -56,7 +56,7 @@ public class ChooseActivity extends AppCompatActivity {
         });
 
         classSpinner.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, getAllClasses()));
+                android.R.layout.simple_list_item_1, LedgerDatabase.getDb().getClassDao().getAllClasses()));
 
         classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -71,10 +71,6 @@ public class ChooseActivity extends AppCompatActivity {
         });
     }
 
-    String[] getAllClasses() {
-        //TODO: Implement getAllClasses for Room database
-        return new String[]{};
-    }
 
 
 }

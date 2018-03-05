@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.ArrayList;
+
 public class ClassListActivity extends AppCompatActivity implements
         ExpandableLayout.OnExpansionUpdateListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private String classID;
@@ -37,6 +39,7 @@ public class ClassListActivity extends AppCompatActivity implements
         if (classID == null) {
             // activate the class selector dialog, use it to return a valid classID
         } else {
+            //noinspection ConstantConditions
             getSupportActionBar().setTitle(classID);
         }
 
@@ -61,13 +64,16 @@ public class ClassListActivity extends AppCompatActivity implements
 
     //<editor-fold desc="Get Stuff From Database">
     private String[] getAllClasses(){
-        //TODO: Implement getAllClasses() for Room database
-        return null;
+        return LedgerDatabase.getDb().getClassDao().getAllClasses();
     }
 
-    private Student[] getStudentsInClass(){
-        //TODO: Implement getStudentsInClasses() for Room database
-        return null;
+    private Student[] getStudentsInClass() {
+        String[] studentsIds =  LedgerDatabase.getDb().getStudentClassMappingDao().getAllStudentsInClass(classID);
+        ArrayList<Student> students = new ArrayList<>();
+        for (String i:studentsIds) {
+            students.add(LedgerDatabase.getDb().getStudentDao().getStudent(i));
+        }
+        return (Student[])students.toArray();
     }
     //</editor-fold>
 

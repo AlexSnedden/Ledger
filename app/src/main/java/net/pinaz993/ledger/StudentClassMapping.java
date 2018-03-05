@@ -12,7 +12,8 @@ import android.support.annotation.NonNull;
 
 @Entity(
         primaryKeys = {"studentId", "classId"},
-        foreignKeys = {@ForeignKey(entity = Student.class, parentColumns = "id", childColumns = "studentId")})
+        foreignKeys = {@ForeignKey(entity = Student.class, parentColumns = "id", childColumns = "studentId"),
+                       @ForeignKey(entity = Class.class, parentColumns = "id", childColumns = "classId")})
 public class StudentClassMapping {
     @NonNull
     public String studentId, classId;

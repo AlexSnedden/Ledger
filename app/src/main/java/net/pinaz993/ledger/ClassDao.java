@@ -11,7 +11,10 @@ import android.arch.persistence.room.Query;
 @Dao
 public interface ClassDao {
     String clearTableQuery = "DELETE FROM Classes";
+    String getAllClassesQuery = "SELECT * FROM Classes";
 
+    @Query(getAllClassesQuery)
+    String[] getAllClasses();
     @Insert
     void addClass(Class newClass);
     @Query(clearTableQuery)

@@ -1,7 +1,6 @@
 package net.pinaz993.ledger;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +13,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.ArrayList;
 
 public class ClassListActivity extends AppCompatActivity implements
         ExpandableLayout.OnExpansionUpdateListener, AdapterView.OnItemClickListener, View.OnClickListener {
@@ -64,10 +61,12 @@ public class ClassListActivity extends AppCompatActivity implements
 
     //<editor-fold desc="Get Stuff From Database">
     private String[] getAllClasses(){
+        //TODO: Implement getAllClasses() for Room database
         return null;
     }
 
     private Student[] getStudentsInClass(){
+        //TODO: Implement getStudentsInClasses() for Room database
         return null;
     }
     //</editor-fold>

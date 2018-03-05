@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 public class ChooseActivity extends AppCompatActivity {
     Button addStudentButton, addClassButton, gotoClassListButton;
 
-    Spinner classSpinner = findViewById(R.id.class_spinner);
+    Spinner classSpinner;
+
+    String chosenClassID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,38 @@ public class ChooseActivity extends AppCompatActivity {
                 startActivity(redirect);
             }
         });
+
+        gotoClassListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(chosenClassID != null) {
+                    Intent redirect = new Intent(v.getContext(), ClassListActivity.class);
+                    redirect.putExtra("CLASS_ID", chosenClassID); // Tell the activity what class to load up
+                    startActivity(redirect);
+
+                }
+            }
+        });
+
+        classSpinner.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, getAllClasses()));
+
+        classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                chosenClassID = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                chosenClassID = null;
+            }
+        });
+    }
+
+    String[] getAllClasses() {
+        //TODO: Implement getAllClasses for Room database
+        return new String[]{};
     }
 
 

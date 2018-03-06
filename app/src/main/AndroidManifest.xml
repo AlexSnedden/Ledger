@@ -19,7 +19,8 @@
         <activity android:name=".AddStudentActivity" />
         <activity android:name=".AddClassActivity" />
         <activity android:name=".ChooseActivity" />
-        <activity android:name=".ClassListActivity"></activity>
+        <activity android:name=".ClassListActivity" />
+        <activity android:name=".StudentRecords"></activity>
     </application>
 
 </manifest>

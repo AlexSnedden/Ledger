@@ -109,15 +109,19 @@ public class StudentPaneAdapter extends ArrayAdapter {
     }
 
     private void toggleAbsentPresent(boolean isChecked, Student student) {
+        //TODO: Implement toggleAbsentPresent
     }
 
     private void toggleLateArrival(boolean isChecked, Student student) {
+        //TODO: Implement toggleLateArrival
     }
 
     private void toggleEarlyDeparture(boolean isChecked, Student student) {
+        //TODO: Implement toggleEarlyDeparture
     }
 
     private void toggleExcused(boolean isChecked, Student student) {
+        //TODO: Implement toggleExcused
     }
 
     private class ViewHolder {

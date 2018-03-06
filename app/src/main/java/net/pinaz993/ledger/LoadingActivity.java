@@ -23,7 +23,7 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // JUST FOR DEV PURPOSES REMOVE THIS HOLY CRAP
+        //FIXME: JUST FOR DEV PURPOSES REMOVE THIS HOLY CRAP
         LedgerDatabase.getDb().getClassDao().clearTable();
         LedgerDatabase.getDb().getStudentDao().clearTable();
         LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();

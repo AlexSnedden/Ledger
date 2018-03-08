@@ -28,16 +28,26 @@ public class LoadingActivity extends AppCompatActivity {
         LedgerDatabase.getDb().getStudentDao().clearTable();
         LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
 
-        for(int i = 0; i < 10; i++) {
-            Student student = new Student();
-            student.setEmailAddress("email@address.com");
-            student.setFirstName("Richie");
-            student.setLastName("Rich");
-            student.setId(Integer.toString(i));
-            LedgerDatabase.getDb().getStudentDao().addStudent(student);
-        }
+        // for ClassListActivity debugging purposes
 
-        Intent redirect = new Intent(this, AddClassActivity.class);
+        Class newClass = new Class();
+        newClass.setId("AP English");
+        Class anotherClass = new Class();
+        anotherClass.setId("Algebra");
+        LedgerDatabase.getDb().getClassDao().addClass(anotherClass);
+        LedgerDatabase.getDb().getClassDao().addClass(newClass);
+        Student apEngStudent = new Student();
+        apEngStudent.setId("0103431");
+        apEngStudent.setFirstName("Foo");
+        apEngStudent.setLastName("Bar");
+        StudentClassMapping classMapping = new StudentClassMapping();
+        classMapping.setClassId(newClass.id);
+        classMapping.setStudentId(apEngStudent.getId());
+
+        Intent redirect = new Intent(this, ClassListActivity.class);
+        Bundle classListActivityBundle = new Bundle();
+        classListActivityBundle.putString("CLASS_ID", "AP English");
+        redirect.putExtras(classListActivityBundle);
         startActivity(redirect);
     }
 

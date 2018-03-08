@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 public class ClassListActivity extends AppCompatActivity implements
         ExpandableLayout.OnExpansionUpdateListener, AdapterView.OnItemClickListener, View.OnClickListener {
     private String classID;
-    private SettingsHandler settings = SettingsHandler.getInstance();
     private ExpandableLayout optionContainer;
     private Button dropMenuButton;
     private String CLASS_ID_KEY;
@@ -29,6 +29,7 @@ public class ClassListActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list);
+
         CLASS_ID_KEY = getString(R.string.class_id_key);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -42,7 +43,6 @@ public class ClassListActivity extends AppCompatActivity implements
             //noinspection ConstantConditions
             getSupportActionBar().setTitle(classID);
         }
-
         optionContainer = (ExpandableLayout) findViewById(R.id.option_container);
         optionContainer.setOnExpansionUpdateListener(this);
 
@@ -57,9 +57,6 @@ public class ClassListActivity extends AppCompatActivity implements
         optionsList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, classes));
         optionsList.setOnItemClickListener(this);
-
-        settings.setLastActivityRun(SettingsHandler.ACTIVITY.CLASS_LIST);
-        settings.setLastClassID(classID);
     }
 
     //<editor-fold desc="Get Stuff From Database">
@@ -73,7 +70,9 @@ public class ClassListActivity extends AppCompatActivity implements
         for (String i:studentsIds) {
             students.add(LedgerDatabase.getDb().getStudentDao().getStudent(i));
         }
-        return (Student[])students.toArray();
+        Student[] studentArray = new Student[students.size()];
+        students.toArray(studentArray);
+        return studentArray;
     }
     //</editor-fold>
 

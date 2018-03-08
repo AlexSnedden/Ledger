@@ -1,6 +1,10 @@
 package net.pinaz993.ledger;
 
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.HashMap;
 
@@ -8,36 +12,38 @@ import java.util.HashMap;
  * Created by Patrick Shannon on 3/6/2018.
  * A DAO for accessing  records
  */
-
+@Dao
 public abstract class AttendanceDao {
-    //TODO: Implement record
-    public abstract void recordAttendance(String studentId, String classId, int interval,
-                                          boolean present, boolean lateArrival,
-                                          boolean earlyDeparture, boolean excused);
+    final String getRecordQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId AND " +
+                            "classId = :classId AND interval = :interval LIMIT 1;";
+    final String getRecordsForStudentQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId;";
+    final String getRecordsForClassQuery = "SELECT * FROM AttendanceRecords WHERE classId = :classId;";
+    final String getRecordsForStudentInClassQuery = "SELECT * FROM AttendanceRecords WHERE " +
+                                                    "studentId = :studentId AND classId = :classId;";
+    @Insert
+    public abstract void recordAttendance(Attendance attendance);
 
-    //TODO: Implement update
-    public abstract void updateAttendance(String studentId, String classId, int interval,
-                                          boolean present, boolean lateArrival,
-                                          boolean earlyDeparture, boolean excused);
+    @Update
+    public abstract void updateAttendance(Attendance attendance);
 
-    //TODO: Implement recordOrUpdate for use in toggling values in ClassListActivity
     @Ignore
-    public void recordOrUpdate(String studentId, String classId, int interval,
-                               boolean present, boolean lateArrival,
-                               boolean earlyDeparture, boolean excused){
-        //If there is a record for studentId, classId, and interval, then update the record.
-        //otherwise, record.
+    public void recordOrUpdate(Attendance attendance) {
+        if(getRecord(attendance.studentId, attendance.classId, attendance.interval) == null) {
+            recordAttendance(attendance);
+        } else {
+            updateAttendance(attendance);
+        }
     }
 
-    //TODO: Implement getRecord
-    public abstract HashMap getRecord(String studentId, String classId, int interval);
+    @Query(getRecordQuery)
+    public abstract Attendance getRecord(String studentId, String classId, int interval);
 
-    //TODO: Implement getRecordsForStudent
-    public abstract HashMap[] getRecordsForStudent(String studentId);
+    @Query(getRecordsForStudentQuery)
+    public abstract Attendance[] getRecordsForStudent(String studentId);
 
-    //TODO: Implement getRecordsForClass
-    public abstract HashMap[] getRecordsForClass(String classId);
+    @Query(getRecordsForClassQuery)
+    public abstract Attendance[] getRecordsForClass(String classId);
 
-    //TODO: Implement getRecordsForStudentInClass
-    public abstract HashMap[] getRecordsForStudentInClass(String studentId, String classId);
+    @Query(getRecordsForStudentInClassQuery)
+    public abstract Attendance[] getRecordsForStudentInClass(String studentId, String classId);
 }

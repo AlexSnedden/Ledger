@@ -14,8 +14,6 @@ public class AttendanceInterval{
     Duration duration;
     Instant start;
     Interval interval;
-    @Ignore
-    private static SettingsHandler settings = SettingsHandler.getInstance();
 
     public static long getCurrentStart(){
         return getCurrent().start.getMillis();
@@ -29,21 +27,15 @@ public class AttendanceInterval{
     public static AttendanceInterval getFromInstant(Instant then){
         LocalDate now = then.toDateTime().toLocalDate();
         Instant newStart;
-        if (settings.isWeekly()) {
-            now = now.dayOfWeek().withMinimumValue();
-            newStart = now.toDateTimeAtStartOfDay().toInstant();
-        } else if(settings.isDaily()) {
-            newStart = now.toDateTimeAtStartOfDay().toInstant();
-        } else {
-            newStart = new Instant(0); //Shouldn't ever happen, but is easy to test for.
-        }
+        newStart = now.toDateTimeAtStartOfDay().toInstant();
+
         return new AttendanceInterval(newStart);
     }
 
     // To ensure proper alignment, all initializations will take place in static methods.
     private AttendanceInterval(Instant start) {
         this.start = start;
-        duration = settings.getAttendanceIntervalDuration();
+        duration = new Duration(86400000); //Number of milliseconds in a day
         interval = new Interval(start, duration);
     }
 

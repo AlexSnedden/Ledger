@@ -23,7 +23,7 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //FIXME: JUST FOR DEV PURPOSES REMOVE THIS HOLY CRAP
+        //FIXME: Just for dev purposes.
         LedgerDatabase.getDb().getClassDao().clearTable();
         LedgerDatabase.getDb().getStudentDao().clearTable();
         LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
@@ -37,12 +37,14 @@ public class LoadingActivity extends AppCompatActivity {
         LedgerDatabase.getDb().getClassDao().addClass(anotherClass);
         LedgerDatabase.getDb().getClassDao().addClass(newClass);
         Student apEngStudent = new Student();
-        apEngStudent.setId("0103431");
+        apEngStudent.setId("01f03431");
         apEngStudent.setFirstName("Foo");
         apEngStudent.setLastName("Bar");
+        LedgerDatabase.getDb().getStudentDao().addStudent(apEngStudent);
         StudentClassMapping classMapping = new StudentClassMapping();
-        classMapping.setClassId(newClass.id);
+        classMapping.setClassId("Algebra");
         classMapping.setStudentId(apEngStudent.getId());
+        LedgerDatabase.getDb().getStudentClassMappingDao().addStudentClassMapping(classMapping);
 
         Intent redirect = new Intent(this, ClassListActivity.class);
         Bundle classListActivityBundle = new Bundle();

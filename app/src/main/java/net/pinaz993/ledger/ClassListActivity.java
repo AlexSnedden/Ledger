@@ -72,6 +72,7 @@ public class ClassListActivity extends AppCompatActivity implements
         }
         Student[] studentArray = new Student[students.size()];
         students.toArray(studentArray);
+        Log.v("myKey", studentArray[0].getFirstName());
         return studentArray;
     }
     //</editor-fold>

@@ -20,7 +20,11 @@
         <activity android:name=".AddClassActivity" />
         <activity android:name=".ChooseActivity" />
         <activity android:name=".ClassListActivity" />
-        <activity android:name=".StudentRecords"></activity>
+        <activity android:name=".StudentRecords" />
+        <activity
+            android:name=".EditStudentsActivity"
+            android:label="@string/title_activity_edit_students"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

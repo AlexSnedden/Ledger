@@ -2,6 +2,7 @@ package net.pinaz993.ledger;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,12 @@ public class StudentPaneAdapter extends ArrayAdapter {
     private final LayoutInflater inflater;
     private final ViewBinderHelper binderHelper;
 
-    StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects) {
+    StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects, String studentClassID) {
         super(context, R.layout.student_pane_template, objects);
         inflater = LayoutInflater.from(getContext());
         binderHelper = new ViewBinderHelper();
         binderHelper.setOpenOnlyOne(true);
+        this.studentClassID = studentClassID;
     }
 
     @NonNull
@@ -51,7 +53,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
-
             holder = new ViewHolder();
             holder.bottomLayout = convertView.findViewById(R.id.bottomLayout);
             holder.excusedBtn = convertView.findViewById(R.id.excusedBtn);
@@ -110,6 +111,12 @@ public class StudentPaneAdapter extends ArrayAdapter {
 
     private void toggleAbsentPresent(boolean isChecked, Student student) {
         //TODO: Implement toggleAbsentPresent
+        if(isChecked) {
+            Log.v("MyKey", String.format("%s was marked as present for %s", student.getLastName(), studentClassID));
+        } else {
+            Log.v("MyKey", String.format("%s was marked as absent for %s", student.getLastName(), studentClassID));
+        }
+
     }
 
     private void toggleLateArrival(boolean isChecked, Student student) {

@@ -48,12 +48,12 @@ public class ClassListActivity extends AppCompatActivity implements
 
         ListView studentList = (ListView) findViewById(R.id.student_list);
         Student[] students = getStudentsInClass();
-        StudentPaneAdapter studentPaneAdapter = new StudentPaneAdapter(this, students);
+        StudentPaneAdapter studentPaneAdapter = new StudentPaneAdapter(this, students, classID);
         studentList.setAdapter(studentPaneAdapter);
 
 
         classes = getAllClasses();
-        ListView optionsList = (ListView) findViewById(R.id.options_list);
+        ListView optionsList = findViewById(R.id.options_list);
         optionsList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, classes));
         optionsList.setOnItemClickListener(this);
@@ -72,7 +72,6 @@ public class ClassListActivity extends AppCompatActivity implements
         }
         Student[] studentArray = new Student[students.size()];
         students.toArray(studentArray);
-        Log.v("myKey", studentArray[0].getFirstName());
         return studentArray;
     }
     //</editor-fold>

@@ -13,4 +13,6 @@
     <string name="list_classes_txt">List Classes</string>
     <string name="class_id_key">CLASS_ID</string>
     <string name="arrow">Just an arrow.</string>
+    <string name="previously_launched">HAS_BEEN_LAUNCHED</string>
+    <string name="title_activity_edit_students">EditStudentsActivity</string>
 </resources>

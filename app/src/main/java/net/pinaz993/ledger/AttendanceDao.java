@@ -35,6 +35,7 @@ public abstract class AttendanceDao {
         }
     }
 
+
     @Query(getRecordQuery)
     public abstract Attendance getRecord(String studentId, String classId, int interval);
 

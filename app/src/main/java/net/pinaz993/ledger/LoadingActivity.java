@@ -3,6 +3,7 @@ package net.pinaz993.ledger;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,32 +24,9 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //FIXME: Just for dev purposes.
-        LedgerDatabase.getDb().getClassDao().clearTable();
-        LedgerDatabase.getDb().getStudentDao().clearTable();
-        LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
-
-        // for ClassListActivity debugging purposes
-
-        Class newClass = new Class();
-        newClass.setId("AP English");
-        Class anotherClass = new Class();
-        anotherClass.setId("Algebra");
-        LedgerDatabase.getDb().getClassDao().addClass(anotherClass);
-        LedgerDatabase.getDb().getClassDao().addClass(newClass);
-        Student apEngStudent = new Student();
-        apEngStudent.setId("01f03431");
-        apEngStudent.setFirstName("Foo");
-        apEngStudent.setLastName("Bar");
-        LedgerDatabase.getDb().getStudentDao().addStudent(apEngStudent);
-        StudentClassMapping classMapping = new StudentClassMapping();
-        classMapping.setClassId("Algebra");
-        classMapping.setStudentId(apEngStudent.getId());
-        LedgerDatabase.getDb().getStudentClassMappingDao().addStudentClassMapping(classMapping);
-
         Intent redirect = new Intent(this, ClassListActivity.class);
         Bundle classListActivityBundle = new Bundle();
-        classListActivityBundle.putString("CLASS_ID", "AP English");
+        classListActivityBundle.putString("CLASS_ID", "test");
         redirect.putExtras(classListActivityBundle);
         startActivity(redirect);
     }
@@ -59,6 +37,45 @@ public class LoadingActivity extends AppCompatActivity {
             LedgerDatabase.setInstance(Room.databaseBuilder(getApplicationContext(),
                     LedgerDatabase.class, "ledger_db").allowMainThreadQueries().build());
             return new Object();
+        }
+    }
+
+    private boolean isFirstLaunch() {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.previously_launched), Context.MODE_PRIVATE);
+        return getResources().getBoolean(R.string.previously_launched);
+    }
+    private void recordFirstLaunch() {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.previously_launched), Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        e.putBoolean(getString(R.string.previously_launched), true);
+        e.commit();
+    }
+    // FixMe: Just for dev purposes.
+    private void generateDummyStudents() {
+        LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
+        LedgerDatabase.getDb().getClassDao().clearTable();
+        LedgerDatabase.getDb().getStudentDao().clearTable();
+        Class _class = null;
+        Student student = null;
+        StudentClassMapping mapping = null;
+        int l = 100;
+        for(int i=0; i < 10; i++) {
+            _class = new Class();
+            _class.setId(String.format("Class %d", i));
+            LedgerDatabase.getDb().getClassDao().addClass(_class);
+            for(int j=0; j < 20; j++) {
+                student = new Student();
+                student.setId(Integer.toString(j + l));
+                student.setLastName(String.format("Student%d", j));
+                student.setFirstName(String.format("Class%d", i));
+                student.setEmailAddress("");
+                mapping = new StudentClassMapping();
+                mapping.setStudentId(student.getId());
+                mapping.setClassId(_class.id);
+                LedgerDatabase.getDb().getStudentDao().addStudent(student);
+                LedgerDatabase.getDb().getStudentClassMappingDao().addStudentClassMapping(mapping);
+            }
+            l += 412432;
         }
     }
 }

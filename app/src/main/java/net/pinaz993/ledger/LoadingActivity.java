@@ -28,6 +28,8 @@ public class LoadingActivity extends AppCompatActivity {
         Bundle classListActivityBundle = new Bundle();
         classListActivityBundle.putString("CLASS_ID", "test");
         redirect.putExtras(classListActivityBundle);
+        LedgerDatabase.getDb().getAttendanceDao().clearTable();
+        //generateDummyStudents();
         startActivity(redirect);
     }
 

@@ -10,15 +10,74 @@ import android.support.annotation.NonNull;
  */
 
 @Entity(
-        tableName = "AttendanceRecords", primaryKeys = {"studentId", "classId", "interval"},
+        tableName = "AttendanceRecords", primaryKeys = {"studentId", "classId", "date"},
         foreignKeys = @ForeignKey(entity = Student.class, parentColumns = "id", childColumns = "studentId")
 )
 public class Attendance {
     @NonNull
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(@NonNull String studentId) {
+        this.studentId = studentId;
+    }
+
+    @NonNull
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(@NonNull String classId) {
+        this.classId = classId;
+    }
+
+    @NonNull
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(@NonNull String date) {
+        this.date = date;
+    }
+
+    public boolean isPresent() {
+        return present;
+    }
+
+    public void setPresent(boolean present) {
+        this.present = present;
+    }
+
+    public boolean isLateArrival() {
+        return lateArrival;
+    }
+
+    public void setLateArrival(boolean lateArrival) {
+        this.lateArrival = lateArrival;
+    }
+
+    public boolean isEarlyDeparture() {
+        return earlyDeparture;
+    }
+
+    public void setEarlyDeparture(boolean earlyDeparture) {
+        this.earlyDeparture = earlyDeparture;
+    }
+
+    public boolean isExcused() {
+        return excused;
+    }
+
+    public void setExcused(boolean excused) {
+        this.excused = excused;
+    }
+
+    @NonNull
     public String studentId, classId;
     @NonNull
-    public int interval;
+    // takes the form "MM-YYYY-DD"
+    public String date;
 
-    public boolean present, lateArrival, earlyDeparture, excused;
-
+    public boolean present, lateArrival, earlyDeparture, excused = false;
 }

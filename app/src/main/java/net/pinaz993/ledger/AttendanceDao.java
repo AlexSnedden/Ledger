@@ -15,29 +15,21 @@ import java.util.HashMap;
 @Dao
 public abstract class AttendanceDao {
     final String getRecordQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId AND " +
-                            "classId = :classId AND interval = :interval LIMIT 1;";
+                            "classId = :classId AND date = :date LIMIT 1;";
     final String getRecordsForStudentQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId;";
     final String getRecordsForClassQuery = "SELECT * FROM AttendanceRecords WHERE classId = :classId;";
     final String getRecordsForStudentInClassQuery = "SELECT * FROM AttendanceRecords WHERE " +
                                                     "studentId = :studentId AND classId = :classId;";
+    final String clearTableQuery = "DELETE FROM AttendanceRecords";
+
     @Insert
     public abstract void recordAttendance(Attendance attendance);
 
     @Update
     public abstract void updateAttendance(Attendance attendance);
 
-    @Ignore
-    public void recordOrUpdate(Attendance attendance) {
-        if(getRecord(attendance.studentId, attendance.classId, attendance.interval) == null) {
-            recordAttendance(attendance);
-        } else {
-            updateAttendance(attendance);
-        }
-    }
-
-
     @Query(getRecordQuery)
-    public abstract Attendance getRecord(String studentId, String classId, int interval);
+    public abstract Attendance getRecord(String studentId, String classId, String date);
 
     @Query(getRecordsForStudentQuery)
     public abstract Attendance[] getRecordsForStudent(String studentId);
@@ -47,4 +39,7 @@ public abstract class AttendanceDao {
 
     @Query(getRecordsForStudentInClassQuery)
     public abstract Attendance[] getRecordsForStudentInClass(String studentId, String classId);
+
+    @Query(clearTableQuery)
+    public abstract void clearTable();
 }

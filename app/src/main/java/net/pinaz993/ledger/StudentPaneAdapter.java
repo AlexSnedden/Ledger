@@ -36,7 +36,6 @@ import java.time.LocalDate;
 
 public class StudentPaneAdapter extends ArrayAdapter {
     private String studentClassID;
-
     private final LayoutInflater inflater;
     private final ViewBinderHelper binderHelper;
 
@@ -51,8 +50,9 @@ public class StudentPaneAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        // TODO: Modify such that the button states match their previous states
         final ViewHolder holder;
+        final Student student = (Student) getItem(position);
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
             holder = new ViewHolder();
@@ -65,6 +65,19 @@ public class StudentPaneAdapter extends ArrayAdapter {
             holder.studentNameTxt = convertView.findViewById(R.id.studentNameTxt);
             holder.absentPresentSwitch = convertView.findViewById(R.id.absentPresentSwitch);
 
+            DateTime dateTime = new DateTime();
+            String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                    Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                    Integer.toString(dateTime.getDayOfMonth());
+            Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                                                                                        studentClassID,
+                                                                                        currentDate);
+            // update button states to match today's records.
+            if(existingRecord != null) {
+                holder.absentPresentSwitch.setChecked(existingRecord.present);
+                holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
+                holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
+            }
             holder.swipe = convertView.findViewById(R.id.swipe);
 
             convertView.setTag(holder);
@@ -72,7 +85,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Student student = (Student) getItem(position);
         if (student != null) {
             binderHelper.bind(holder.swipe, student.id);
             //Set click handlers

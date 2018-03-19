@@ -41,8 +41,9 @@ public class ClassListActivity extends AppCompatActivity implements
             // activate the class selector dialog, use it to return a valid classID
         } else {
             //noinspection ConstantConditions
-            getSupportActionBar().setTitle(classID);
         }
+        getSupportActionBar().setTitle(classID);
+
         optionContainer = (ExpandableLayout) findViewById(R.id.option_container);
         optionContainer.setOnExpansionUpdateListener(this);
 

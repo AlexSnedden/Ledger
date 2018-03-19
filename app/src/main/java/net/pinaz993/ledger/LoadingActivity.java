@@ -24,13 +24,11 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent redirect = new Intent(this, ClassListActivity.class);
-        Bundle classListActivityBundle = new Bundle();
-        classListActivityBundle.putString("CLASS_ID", "test");
-        redirect.putExtras(classListActivityBundle);
-        LedgerDatabase.getDb().getAttendanceDao().clearTable();
+        //LedgerDatabase.getDb().getAttendanceDao().clearTable();
         //generateDummyStudents();
+        Intent redirect = new Intent(this, MainMenu.class);
         startActivity(redirect);
+
     }
 
     private class CreateDb extends AsyncTask<Object, Void, Object> {
@@ -52,6 +50,7 @@ public class LoadingActivity extends AppCompatActivity {
         e.putBoolean(getString(R.string.previously_launched), true);
         e.commit();
     }
+
     // FixMe: Just for dev purposes.
     private void generateDummyStudents() {
         LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();

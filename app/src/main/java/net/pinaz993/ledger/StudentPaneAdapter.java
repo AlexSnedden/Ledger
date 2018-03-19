@@ -2,6 +2,7 @@ package net.pinaz993.ledger;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,7 @@ public class StudentPaneAdapter extends ArrayAdapter {
             holder.studentNameTxt = convertView.findViewById(R.id.studentNameTxt);
             holder.absentPresentSwitch = convertView.findViewById(R.id.absentPresentSwitch);
 
+
             DateTime dateTime = new DateTime();
             String currentDate = Integer.toString(dateTime.getYear()) + "-" +
                     Integer.toString(dateTime.getMonthOfYear()) + "-" +
@@ -77,6 +79,7 @@ public class StudentPaneAdapter extends ArrayAdapter {
                 holder.absentPresentSwitch.setChecked(existingRecord.present);
                 holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
                 holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
+                holder.excusedBtn.setChecked(existingRecord.excused);
             }
             holder.swipe = convertView.findViewById(R.id.swipe);
 
@@ -88,12 +91,18 @@ public class StudentPaneAdapter extends ArrayAdapter {
         if (student != null) {
             binderHelper.bind(holder.swipe, student.id);
             //Set click handlers
-            holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    toggleExcused(holder.excusedBtn.isChecked(), student);
-                }
-            });
+            holder.swipe.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Log.v("MyTag", "long click detected");
+                                                    }
+                                                });
+                    holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            toggleExcused(holder.excusedBtn.isChecked(), student);
+                        }
+                    });
 
             holder.earlyDepartureBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -268,7 +277,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
         ToggleButton excusedBtn,
                 lateArrivalBtn,
                 earlyDepartureBtn;
-
         LinearLayout topLayout;
         TextView studentNameTxt;
         Switch absentPresentSwitch;

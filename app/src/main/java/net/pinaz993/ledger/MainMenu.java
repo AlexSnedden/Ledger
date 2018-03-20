@@ -26,27 +26,51 @@ public class MainMenu extends AppCompatActivity {
         getSupportActionBar().setTitle("Ledger");
 
         Button takeAttendanceBtn = findViewById(R.id.takeAttendanceBtn);
+        Button addClassBtn = findViewById(R.id.addAClassBtn);
+        Button editStudentsBtn = findViewById(R.id.editStudentsBtn);
         DateTime dateTime = new DateTime();
         String currentDate = Integer.toString(dateTime.getYear()) + "-" +
                 Integer.toString(dateTime.getMonthOfYear()) + "-" +
                 Integer.toString(dateTime.getDayOfMonth());
         takeAttendanceBtn.setText(String.format("Take attendance for %s", currentDate));
         takeAttendanceBtn.setOnClickListener(new View.OnClickListener() {
-                                                 @Override
-                                                 public void onClick(View view) {
-                                                     takeAttendance();
-                                                 }
-                                             }
-        );
+            @Override
+            public void onClick(View view) {
+                takeAttendance();
+            }
+        });
+        addClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addClass();
+            }
+        });
+        editStudentsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editStudents();
+            }
+        });
+
+
     }
 
     private void takeAttendance() {
         Intent redirect = new Intent(this, ClassListActivity.class);
-        String classes[] = LedgerDatabase.getDb().getClassDao().getAllClasses();
+        Class classes[] = LedgerDatabase.getDb().getClassDao().getAllClasses();
         Bundle classListActivityBundle = new Bundle();
-        classListActivityBundle.putString("CLASS_ID", classes[0]);
+        classListActivityBundle.putString("CLASS_ID", classes[0].id);
         redirect.putExtras(classListActivityBundle);
         startActivity(redirect);
     }
 
+    private void addClass() {
+        Intent redirect = new Intent(this, AddStudentActivity.class);
+        startActivity(redirect);
+    }
+
+    private void editStudents() {
+        Intent redirect = new Intent(this, EditStudents.class);
+        startActivity(redirect);
+    }
 }

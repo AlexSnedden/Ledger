@@ -23,7 +23,7 @@ public class ClassListActivity extends AppCompatActivity implements
     private ExpandableLayout optionContainer;
     private Button dropMenuButton;
     private String CLASS_ID_KEY;
-    private String[] classes;
+    private Class[] classes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class ClassListActivity extends AppCompatActivity implements
     }
 
     //<editor-fold desc="Get Stuff From Database">
-    private String[] getAllClasses(){
+    private Class[] getAllClasses(){
         return LedgerDatabase.getDb().getClassDao().getAllClasses();
     }
 
@@ -96,7 +96,7 @@ public class ClassListActivity extends AppCompatActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent goTo = new Intent(this, ClassListActivity.class);
-        goTo.putExtra(CLASS_ID_KEY, classes[position]);
+        goTo.putExtra(CLASS_ID_KEY, classes[position].id);
         startActivity(goTo);
 
     }
@@ -104,6 +104,13 @@ public class ClassListActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         optionContainer.toggle(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // go back to main menu, not just previous class list.
+        Intent redirect = new Intent(this, MainMenu.class);
+        startActivity(redirect);
     }
     //</editor-fold>
 }

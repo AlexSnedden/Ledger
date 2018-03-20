@@ -41,13 +41,6 @@
             android:layout_height="match_parent"
             android:textOff="@string/lateArrivalTxt"
             android:textOn="@string/lateArrivalTxt" />
-
-        <ToggleButton
-            android:id="@+id/recordBehaviorBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textOff="@string/lateArrivalTxt"
-            android:textOn="@string/lateArrivalTxt" />
     </LinearLayout>
 
     <!--Top Layout-->

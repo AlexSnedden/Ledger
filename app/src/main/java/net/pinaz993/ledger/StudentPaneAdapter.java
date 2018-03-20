@@ -91,12 +91,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
         if (student != null) {
             binderHelper.bind(holder.swipe, student.id);
             //Set click handlers
-            holder.swipe.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Log.v("MyTag", "long click detected");
-                                                    }
-                                                });
                     holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

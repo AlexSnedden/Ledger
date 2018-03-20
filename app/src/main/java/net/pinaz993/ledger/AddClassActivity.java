@@ -29,10 +29,9 @@ public class AddClassActivity extends AppCompatActivity {
                 newClass.setId(className.getText().toString());
                 try {
                     LedgerDatabase.getDb().getClassDao().addClass(newClass);
-                    /*Snackbar successMessage = Snackbar.make(coordinatorLayout, "Successfully added class!", 5000);
-                    successMessage.show();*/
+                    Snackbar successMessage = Snackbar.make(coordinatorLayout, "Successfully added class!", 5000);
+                    successMessage.show();
                     className.setText("");
-                    showDialog();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Snackbar failureMessage = Snackbar.make(coordinatorLayout, "Failed to add class.", 5000);
@@ -42,10 +41,7 @@ public class AddClassActivity extends AppCompatActivity {
 
         });
     }
-    void showDialog() {
-        DialogFragment newFragment = AddStudentsToClassPrompt.newInstance();
-        newFragment.show(getFragmentManager(), "dialog");
-    }
+
 
 }
 

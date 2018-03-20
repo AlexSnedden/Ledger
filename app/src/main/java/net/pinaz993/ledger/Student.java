@@ -54,4 +54,9 @@ public class Student {
     String emailAddress;
 
     String getFullName() {return firstName + " " + lastName;}
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }

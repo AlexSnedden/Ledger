@@ -3,6 +3,7 @@
     <string name="excusedTxt">Excused</string>
     <string name="earlyDepartureTxt">Early Departure</string>
     <string name="lateArrivalTxt">Late Arrival</string>
+    <string name="recordBehaviorTxt">Record Behavior</string>
     <string name="invalidStudentTxt">Invalid Student</string>
     <string name="attendance_mode_key">ATTENDANCE_INTERVAL</string>
     <string name="settings_key">SETTINGS</string>
@@ -13,4 +14,11 @@
     <string name="list_classes_txt">List Classes</string>
     <string name="class_id_key">CLASS_ID</string>
     <string name="arrow">Just an arrow.</string>
+    <string name="previously_launched">HAS_BEEN_LAUNCHED</string>
+    <string name="title_activity_edit_students">EditStudentsActivity</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_students_classes">EditStudentsClassesActivity</string>
 </resources>

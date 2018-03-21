@@ -16,6 +16,27 @@ import android.support.annotation.NonNull;
                        @ForeignKey(entity = Class.class, parentColumns = "id", childColumns = "classId")})
 public class StudentClassMapping {
     @NonNull
-    public String studentId, classId;
+    public String studentId;
+
+    @NonNull
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(@NonNull String studentId) {
+        this.studentId = studentId;
+    }
+
+    @NonNull
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(@NonNull String classId) {
+        this.classId = classId;
+    }
+
+    @NonNull
+    public String classId;
 
 }

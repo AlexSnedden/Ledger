@@ -2,6 +2,8 @@ package net.pinaz993.ledger;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,10 @@ import android.widget.ToggleButton;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+
+import org.joda.time.DateTime;
+
+import java.time.LocalDate;
 
 /**StudentPaneView is a view that displays information about and presents interactivity for an
  * instance of the Student class. It contains the name of the student, a switch for present/absent,
@@ -30,28 +36,26 @@ import com.chauthai.swipereveallayout.ViewBinderHelper;
  */
 
 public class StudentPaneAdapter extends ArrayAdapter {
-
-
-    private Student student;
     private String studentClassID;
-
     private final LayoutInflater inflater;
     private final ViewBinderHelper binderHelper;
 
-    StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects) {
+    StudentPaneAdapter(@NonNull Context context, @NonNull Object[] objects, String studentClassID) {
         super(context, R.layout.student_pane_template, objects);
         inflater = LayoutInflater.from(getContext());
         binderHelper = new ViewBinderHelper();
         binderHelper.setOpenOnlyOne(true);
+        this.studentClassID = studentClassID;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ViewHolder holder;
+        final Student student = (Student) getItem(position);
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
-
             holder = new ViewHolder();
             holder.bottomLayout = convertView.findViewById(R.id.bottomLayout);
             holder.excusedBtn = convertView.findViewById(R.id.excusedBtn);
@@ -62,6 +66,21 @@ public class StudentPaneAdapter extends ArrayAdapter {
             holder.studentNameTxt = convertView.findViewById(R.id.studentNameTxt);
             holder.absentPresentSwitch = convertView.findViewById(R.id.absentPresentSwitch);
 
+
+            DateTime dateTime = new DateTime();
+            String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                    Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                    Integer.toString(dateTime.getDayOfMonth());
+            Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                                                                                        studentClassID,
+                                                                                        currentDate);
+            // update button states to match today's records.
+            if(existingRecord != null) {
+                holder.absentPresentSwitch.setChecked(existingRecord.present);
+                holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
+                holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
+                holder.excusedBtn.setChecked(existingRecord.excused);
+            }
             holder.swipe = convertView.findViewById(R.id.swipe);
 
             convertView.setTag(holder);
@@ -69,16 +88,15 @@ public class StudentPaneAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Student student = (Student) getItem(position);
         if (student != null) {
             binderHelper.bind(holder.swipe, student.id);
             //Set click handlers
-            holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    toggleExcused(holder.excusedBtn.isChecked(), student);
-                }
-            });
+                    holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            toggleExcused(holder.excusedBtn.isChecked(), student);
+                        }
+                    });
 
             holder.earlyDepartureBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -109,19 +127,143 @@ public class StudentPaneAdapter extends ArrayAdapter {
     }
 
     private void toggleAbsentPresent(boolean isChecked, Student student) {
-        //TODO: Implement toggleAbsentPresent
+        DateTime dateTime = new DateTime();
+        String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                             Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                             Integer.toString(dateTime.getDayOfMonth());
+        Attendance attendanceRecord = new Attendance();
+        attendanceRecord.setStudentId(student.getId());
+        attendanceRecord.setClassId(studentClassID);
+        attendanceRecord.setDate(currentDate);
+        Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                                                                        studentClassID, currentDate);
+        if(existingRecord != null) {
+            attendanceRecord.setLateArrival(existingRecord.lateArrival);
+            attendanceRecord.setEarlyDeparture(existingRecord.earlyDeparture);
+            attendanceRecord.setExcused(existingRecord.excused);
+        }
+        if(isChecked) {
+            // student is present
+            attendanceRecord.setPresent(true);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        } else {
+            // student is absent
+            attendanceRecord.setPresent(false);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        }
     }
 
     private void toggleLateArrival(boolean isChecked, Student student) {
-        //TODO: Implement toggleLateArrival
-    }
-
-    private void toggleEarlyDeparture(boolean isChecked, Student student) {
-        //TODO: Implement toggleEarlyDeparture
+        DateTime dateTime = new DateTime();
+        String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                Integer.toString(dateTime.getDayOfMonth());
+        Attendance attendanceRecord = new Attendance();
+        attendanceRecord.setStudentId(student.getId());
+        attendanceRecord.setClassId(studentClassID);
+        attendanceRecord.setDate(currentDate);
+        Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                studentClassID, currentDate);
+        if(existingRecord != null) {
+            attendanceRecord.setPresent(existingRecord.present);
+            attendanceRecord.setEarlyDeparture(existingRecord.earlyDeparture);
+            attendanceRecord.setExcused(existingRecord.excused);
+        }
+        if(isChecked) {
+            // student arrived late
+            attendanceRecord.setLateArrival(true);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        } else {
+            // student arrived on time
+            attendanceRecord.setLateArrival(false);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        }
     }
 
     private void toggleExcused(boolean isChecked, Student student) {
-        //TODO: Implement toggleExcused
+        DateTime dateTime = new DateTime();
+        String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                Integer.toString(dateTime.getDayOfMonth());
+        Attendance attendanceRecord = new Attendance();
+        attendanceRecord.setStudentId(student.getId());
+        attendanceRecord.setClassId(studentClassID);
+        attendanceRecord.setDate(currentDate);
+        Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                studentClassID, currentDate);
+        if(existingRecord != null) {
+            attendanceRecord.setLateArrival(existingRecord.lateArrival);
+            attendanceRecord.setEarlyDeparture(existingRecord.earlyDeparture);
+            attendanceRecord.setPresent(existingRecord.present);
+        }
+        if(isChecked) {
+            // student is excused
+            attendanceRecord.setExcused(true);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        } else {
+            // student is not excused
+            attendanceRecord.setExcused(false);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        }
+    }
+
+    private void toggleEarlyDeparture(boolean isChecked, Student student) {
+        DateTime dateTime = new DateTime();
+        String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                Integer.toString(dateTime.getDayOfMonth());
+        Attendance attendanceRecord = new Attendance();
+        attendanceRecord.setStudentId(student.getId());
+        attendanceRecord.setClassId(studentClassID);
+        attendanceRecord.setDate(currentDate);
+        Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+                studentClassID, currentDate);
+        if(existingRecord != null) {
+            attendanceRecord.setLateArrival(existingRecord.lateArrival);
+            attendanceRecord.setPresent(existingRecord.present);
+            attendanceRecord.setExcused(existingRecord.excused);
+        }
+        if(isChecked) {
+            // student departed early
+            attendanceRecord.setEarlyDeparture(true);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        } else {
+            // student did not depart early
+            attendanceRecord.setEarlyDeparture(false);
+            if(existingRecord != null) {
+                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                return;
+            }
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+        }
     }
 
     private class ViewHolder {
@@ -129,7 +271,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
         ToggleButton excusedBtn,
                 lateArrivalBtn,
                 earlyDepartureBtn;
-
         LinearLayout topLayout;
         TextView studentNameTxt;
         Switch absentPresentSwitch;

@@ -14,7 +14,7 @@ public interface ClassDao {
     String getAllClassesQuery = "SELECT * FROM Classes";
 
     @Query(getAllClassesQuery)
-    String[] getAllClasses();
+    Class[] getAllClasses();
     @Insert
     void addClass(Class newClass);
     @Query(clearTableQuery)

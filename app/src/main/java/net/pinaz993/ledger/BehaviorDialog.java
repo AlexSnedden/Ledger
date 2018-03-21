@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * A dialog box that allows the user to select mutliple behaviors and record them for a single student.

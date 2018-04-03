@@ -26,7 +26,7 @@ public class LoadingActivity extends AppCompatActivity {
         }
 
         //LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
-        LedgerDatabase.getDb().getAttendanceDao().clearTable();
+        //LedgerDatabase.getDb().getAttendanceDao().clearTable();
         //LedgerDatabase.getDb().getStudentDao().clearTable();
         //LedgerDatabase.getDb().getClassDao().clearTable();
         //generateDummyStudents();
@@ -46,16 +46,6 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isFirstLaunch() {
-        SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.previously_launched), Context.MODE_PRIVATE);
-        return getResources().getBoolean(R.string.previously_launched);
-    }
-    private void recordFirstLaunch() {
-        SharedPreferences sp = getApplicationContext().getSharedPreferences(getString(R.string.previously_launched), Context.MODE_PRIVATE);
-        SharedPreferences.Editor e = sp.edit();
-        e.putBoolean(getString(R.string.previously_launched), true);
-        e.commit();
-    }
 
     // FixMe: Just for dev purposes.
     private void generateDummyStudents() {

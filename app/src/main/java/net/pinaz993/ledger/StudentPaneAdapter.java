@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -53,7 +54,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ViewHolder holder;
         final Student student = (Student) getItem(position);
-        Log.v("MyTag", String.format("I'm getView for %s", student.getFirstName()));
 
         //if (convertView == null) {
         if(9 + 1 != 21) {
@@ -80,9 +80,18 @@ public class StudentPaneAdapter extends ArrayAdapter {
             // update button states to match today's records.
             if(existingRecord != null) {
                 holder.absentPresentSwitch.setChecked(existingRecord.present);
-                holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
-                holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
-                holder.excusedBtn.setChecked(existingRecord.excused);
+                if(existingRecord.earlyDeparture) {
+                    holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
+                    holder.earlyDepartureBtn.setTextColor(Color.BLUE);
+                }
+                if(existingRecord.lateArrival) {
+                    holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
+                    holder.lateArrivalBtn.setTextColor(Color.BLUE);
+                }
+                if(existingRecord.excused) {
+                    holder.excusedBtn.setChecked(existingRecord.excused);
+                    holder.excusedBtn.setTextColor(Color.BLUE);
+                }
             } else {
                 Attendance attendance = new Attendance();
                 attendance.setDate(currentDate);
@@ -104,21 +113,39 @@ public class StudentPaneAdapter extends ArrayAdapter {
                     holder.excusedBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            toggleExcused(holder.excusedBtn.isChecked(), student);
+                            if(holder.excusedBtn.isChecked()) {
+                                compoundButton.setTextColor(Color.BLUE);
+                                toggleExcused(true, student);
+                            } else {
+                                compoundButton.setTextColor(Color.BLACK);
+                                toggleExcused(false, student);
+                            }
                         }
                     });
 
             holder.earlyDepartureBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    toggleEarlyDeparture(holder.earlyDepartureBtn.isChecked(), student);
+                    if(holder.earlyDepartureBtn.isChecked()) {
+                        compoundButton.setTextColor(Color.BLUE);
+                        toggleEarlyDeparture(true, student);
+                    } else {
+                        compoundButton.setTextColor(Color.BLACK);
+                        toggleEarlyDeparture(false, student);
+                    }
                 }
             });
 
             holder.lateArrivalBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    toggleLateArrival(holder.lateArrivalBtn.isChecked(), student);
+                    if(holder.lateArrivalBtn.isChecked()) {
+                        compoundButton.setTextColor(Color.BLUE);
+                        toggleLateArrival(true, student);
+                    } else {
+                        compoundButton.setTextColor(Color.BLACK);
+                        toggleLateArrival(false, student);
+                    }
                 }
             });
 

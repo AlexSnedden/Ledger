@@ -15,6 +15,7 @@ public class Behavior {
 
     public String name;
 
+    // -1 for negative, 0 for neutral, 1 for positive
     public int positivity;
 
     public int getPositivity() {

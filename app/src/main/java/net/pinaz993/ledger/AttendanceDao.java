@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -21,6 +22,9 @@ public abstract class AttendanceDao {
     final String getRecordsForStudentInClassQuery = "SELECT * FROM AttendanceRecords WHERE " +
                                                     "studentId = :studentId AND classId = :classId;";
     final String clearTableQuery = "DELETE FROM AttendanceRecords";
+
+    @Delete
+    public abstract void deleteAttendance(Attendance attendance);
 
     @Insert
     public abstract void recordAttendance(Attendance attendance);

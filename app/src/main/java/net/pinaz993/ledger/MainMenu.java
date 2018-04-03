@@ -65,7 +65,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void addClass() {
-        Intent redirect = new Intent(this, AddStudentActivity.class);
+        Intent redirect = new Intent(this, AddClassActivity.class);
         startActivity(redirect);
     }
 

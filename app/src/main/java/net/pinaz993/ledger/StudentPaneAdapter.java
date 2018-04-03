@@ -53,8 +53,10 @@ public class StudentPaneAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ViewHolder holder;
         final Student student = (Student) getItem(position);
+        Log.v("MyTag", String.format("I'm getView for %s", student.getFirstName()));
 
-        if (convertView == null) {
+        //if (convertView == null) {
+        if(9 + 1 != 21) {
             convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
             holder = new ViewHolder();
             holder.bottomLayout = convertView.findViewById(R.id.bottomLayout);
@@ -74,13 +76,21 @@ public class StudentPaneAdapter extends ArrayAdapter {
             Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
                                                                                         studentClassID,
                                                                                         currentDate);
+
             // update button states to match today's records.
             if(existingRecord != null) {
                 holder.absentPresentSwitch.setChecked(existingRecord.present);
                 holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
                 holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
                 holder.excusedBtn.setChecked(existingRecord.excused);
+            } else {
+                Attendance attendance = new Attendance();
+                attendance.setDate(currentDate);
+                attendance.setClassId(studentClassID);
+                attendance.setStudentId(student.getId());
+                LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendance);
             }
+
             holder.swipe = convertView.findViewById(R.id.swipe);
 
             convertView.setTag(holder);
@@ -146,7 +156,10 @@ public class StudentPaneAdapter extends ArrayAdapter {
             // student is present
             attendanceRecord.setPresent(true);
             if(existingRecord != null) {
-                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                //LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                LedgerDatabase.getDb().getAttendanceDao().deleteAttendance(existingRecord);
+                LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
+
                 return;
             }
             LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
@@ -154,7 +167,9 @@ public class StudentPaneAdapter extends ArrayAdapter {
             // student is absent
             attendanceRecord.setPresent(false);
             if(existingRecord != null) {
-                LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                //LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
+                LedgerDatabase.getDb().getAttendanceDao().deleteAttendance(existingRecord);
+                LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
                 return;
             }
             LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);

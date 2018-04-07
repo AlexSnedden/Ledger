@@ -43,11 +43,6 @@ public class ClassListActivity extends AppCompatActivity implements
 
         Bundle extras = getIntent().getExtras();
         classID = (extras != null) ? extras.getString(CLASS_ID_KEY) : null;
-        if (classID == null) {
-            // activate the class selector dialog, use it to return a valid classID
-        } else {
-            //noinspection ConstantConditions
-        }
         getSupportActionBar().setTitle(classID);
 
         optionContainer = (ExpandableLayout) findViewById(R.id.option_container);
@@ -57,7 +52,6 @@ public class ClassListActivity extends AppCompatActivity implements
         Student[] students = getStudentsInClass();
         StudentPaneAdapter studentPaneAdapter = new StudentPaneAdapter(this, students, classID);
         studentList.setAdapter(studentPaneAdapter);
-
 
         classes = getAllClasses();
         ListView optionsList = findViewById(R.id.options_list);

@@ -1,11 +1,16 @@
 package net.pinaz993.ledger;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -55,57 +60,62 @@ public class StudentPaneAdapter extends ArrayAdapter {
         final ViewHolder holder;
         final Student student = (Student) getItem(position);
 
-        //if (convertView == null) {
-        if(9 + 1 != 21) {
-            convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
-            holder = new ViewHolder();
-            holder.bottomLayout = convertView.findViewById(R.id.bottomLayout);
-            holder.excusedBtn = convertView.findViewById(R.id.excusedBtn);
-            holder.earlyDepartureBtn = convertView.findViewById(R.id.earlyDepartureBtn);
-            holder.lateArrivalBtn = convertView.findViewById(R.id.lateArrivalBtn);
+        convertView = inflater.inflate(R.layout.student_pane_template, parent, false);
+        holder = new ViewHolder();
+        holder.bottomLayout = convertView.findViewById(R.id.bottomLayout);
+        holder.excusedBtn = convertView.findViewById(R.id.excusedBtn);
+        holder.earlyDepartureBtn = convertView.findViewById(R.id.earlyDepartureBtn);
+        holder.lateArrivalBtn = convertView.findViewById(R.id.lateArrivalBtn);
 
-            holder.topLayout = convertView.findViewById(R.id.topLayout);
-            holder.studentNameTxt = convertView.findViewById(R.id.studentNameTxt);
-            holder.absentPresentSwitch = convertView.findViewById(R.id.absentPresentSwitch);
+        holder.topLayout = convertView.findViewById(R.id.topLayout);
+        holder.studentNameTxt = convertView.findViewById(R.id.studentNameTxt);
+        holder.absentPresentSwitch = convertView.findViewById(R.id.absentPresentSwitch);
 
-
-            DateTime dateTime = new DateTime();
-            String currentDate = Integer.toString(dateTime.getYear()) + "-" +
-                    Integer.toString(dateTime.getMonthOfYear()) + "-" +
-                    Integer.toString(dateTime.getDayOfMonth());
-            Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
+        DateTime dateTime = new DateTime();
+        String currentDate = Integer.toString(dateTime.getYear()) + "-" +
+                Integer.toString(dateTime.getMonthOfYear()) + "-" +
+                Integer.toString(dateTime.getDayOfMonth());
+        Attendance existingRecord = LedgerDatabase.getDb().getAttendanceDao().getRecord(student.getId(),
                                                                                         studentClassID,
                                                                                         currentDate);
 
-            // update button states to match today's records.
-            if(existingRecord != null) {
-                holder.absentPresentSwitch.setChecked(existingRecord.present);
-                if(existingRecord.earlyDeparture) {
-                    holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
-                    holder.earlyDepartureBtn.setTextColor(Color.BLUE);
-                }
-                if(existingRecord.lateArrival) {
-                    holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
-                    holder.lateArrivalBtn.setTextColor(Color.BLUE);
-                }
-                if(existingRecord.excused) {
-                    holder.excusedBtn.setChecked(existingRecord.excused);
-                    holder.excusedBtn.setTextColor(Color.BLUE);
-                }
-            } else {
-                Attendance attendance = new Attendance();
-                attendance.setDate(currentDate);
-                attendance.setClassId(studentClassID);
-                attendance.setStudentId(student.getId());
-                LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendance);
+        // update button states to match today's records.
+        if(existingRecord != null) {
+            holder.absentPresentSwitch.setChecked(existingRecord.present);
+            if(existingRecord.earlyDeparture) {
+                holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
+                holder.earlyDepartureBtn.setTextColor(Color.BLUE);
             }
-
-            holder.swipe = convertView.findViewById(R.id.swipe);
-
-            convertView.setTag(holder);
+            if(existingRecord.lateArrival) {
+                holder.lateArrivalBtn.setChecked(existingRecord.lateArrival);
+                holder.lateArrivalBtn.setTextColor(Color.BLUE);
+            }
+            if(existingRecord.excused) {
+                holder.excusedBtn.setChecked(existingRecord.excused);
+                holder.excusedBtn.setTextColor(Color.BLUE);
+            }
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            Attendance attendance = new Attendance();
+            attendance.setDate(currentDate);
+            attendance.setClassId(studentClassID);
+            attendance.setStudentId(student.getId());
+            LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendance);
         }
+
+        holder.swipe = convertView.findViewById(R.id.swipe);
+        holder.studentNameTxt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                DialogFragment diagFrag = new BehaviorDialog();
+                Bundle diagFragArgs = new Bundle();
+                diagFragArgs.putString("studentId", student.getId());
+                diagFragArgs.putString("classId", studentClassID);
+                diagFrag.setArguments(diagFragArgs);
+                diagFrag.show(((Activity)getContext()).getFragmentManager(), "Behaviors");
+                return false;
+            }
+        });
+        convertView.setTag(holder);
 
         if (student != null) {
             binderHelper.bind(holder.swipe, student.id);
@@ -158,8 +168,6 @@ public class StudentPaneAdapter extends ArrayAdapter {
 
             holder.studentNameTxt.setText(student.getFullName());
         }
-        else throw new NullPointerException("Tried to bind non-existent student to view");
-
         return convertView;
     }
 

@@ -25,16 +25,17 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //LedgerDatabase.getDb().getStudentClassMappingDao().clearTable();
-        //LedgerDatabase.getDb().getAttendanceDao().clearTable();
-        //LedgerDatabase.getDb().getStudentDao().clearTable();
-        //LedgerDatabase.getDb().getClassDao().clearTable();
-        //generateDummyStudents();
-
-
         Intent redirect = new Intent(this, MainMenu.class);
         startActivity(redirect);
+        Behavior b1 = new Behavior();
+        b1.setId("gsdgfgsfgdsdgsdhsdbmuj");
+        b1.setName("b1");
+        Behavior b2 = new Behavior();
+        b2.setId("afsdfwivnfvbeuvbsuvbek");
+        b2.setName("jerkin it");
 
+        //LedgerDatabase.getDb().getBehaviorDao().addBehavior(b1);
+        //LedgerDatabase.getDb().getBehaviorDao().addBehavior(b2);
     }
 
     private class CreateDb extends AsyncTask<Object, Void, Object> {

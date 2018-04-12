@@ -46,7 +46,7 @@ public class Behavior {
     public String name;
 
     // -1 for negative, 0 for neutral, 1 for positive
-    public int positivity;
+    public int positivity = 0;
 
     boolean checked;
 
@@ -54,4 +54,6 @@ public class Behavior {
         return positivity;
     }
 
+    @Override
+    public String toString() { return name; }
 }

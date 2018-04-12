@@ -4,16 +4,26 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import org.joda.time.DateTime;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import static java.net.Proxy.Type.HTTP;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -28,6 +38,9 @@ public class MainMenu extends AppCompatActivity {
         Button takeAttendanceBtn = findViewById(R.id.takeAttendanceBtn);
         Button addClassBtn = findViewById(R.id.addAClassBtn);
         Button editStudentsBtn = findViewById(R.id.editStudentsBtn);
+        Button editBehaviorsBtn = findViewById(R.id.editBehaviorsButton);
+        Button exportDataBtn = findViewById(R.id.exportDataBtn);
+
         DateTime dateTime = new DateTime();
         String currentDate = Integer.toString(dateTime.getYear()) + "-" +
                 Integer.toString(dateTime.getMonthOfYear()) + "-" +
@@ -51,7 +64,22 @@ public class MainMenu extends AppCompatActivity {
                 editStudents();
             }
         });
-
+        editBehaviorsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editBehaviors();
+            }
+        });
+        exportDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    exportData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -73,4 +101,50 @@ public class MainMenu extends AppCompatActivity {
         Intent redirect = new Intent(this, EditStudents.class);
         startActivity(redirect);
     }
+
+    private void editBehaviors() {
+        Intent redirect = new Intent(this, EditBehaviors.class);
+        startActivity(redirect);
+    }
+
+    private void exportData() throws Exception {
+        /*
+        Emails two files.
+        Attendance File: Date, Class, First and Last name, Present/Absent, Left Early/On Time, Arrived Late/On Time,
+                         Excused/Not Excused
+
+        Behavior File: Date, Class, First and Last name, Behavior, Pos/Neg/Neutral
+         */
+        File attendanceFile = new File(getExternalFilesDir(null), "attendance_data.csv");
+        File behaviorFile = new File(getExternalFilesDir(null), "behavior_data.csv");
+        attendanceFile.setReadable(true);
+        behaviorFile.setReadable(true);
+
+        OutputStream attendanceFileOutputStream = new FileOutputStream(attendanceFile, false);
+        OutputStream behaviorFileOutputStream = new FileOutputStream(behaviorFile, false);
+
+        String attendanceFileString = "", behaviorFileString = "";
+        attendanceFileString += "Date,Class,Name,Present/Absent,Left Early/On Time,Arrived Late/On Time,Excused\n";
+        behaviorFileString += "Date,Class,Name,Behavior,Pos/Neg/Neutral\n";
+
+        
+
+        attendanceFileOutputStream.write(attendanceFileString.getBytes());
+        behaviorFileOutputStream.write(behaviorFileString.getBytes());
+
+        ArrayList<Uri> files = new ArrayList<>();
+        files.add(Uri.fromFile(attendanceFile));
+        files.add(Uri.fromFile(behaviorFile));
+        attendanceFileOutputStream.close();
+        behaviorFileOutputStream.close();
+        Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        emailIntent.setType("message/rfc822");
+        emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Ledger Data Export");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "This is an email from Ledger");
+        startActivity(Intent.createChooser(emailIntent, "send email"));
+    }
+
+    @Override
+    public void onBackPressed() {}
 }

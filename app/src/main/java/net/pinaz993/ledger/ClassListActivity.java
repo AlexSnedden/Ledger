@@ -32,12 +32,6 @@ public class ClassListActivity extends AppCompatActivity implements
 
         CLASS_ID_KEY = getString(R.string.class_id_key);
 
-        // FIXME: For dev purposes
-        Attendance[] attendances = LedgerDatabase.getDb().getAttendanceDao().getRecordsForClass("Class 0");
-        for(Attendance attendance: attendances) {
-            Log.v("MyTag", String.format("%s %s %s %s", attendance.classId, attendance.studentId, attendance.date, attendance.isPresent()));
-        }
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

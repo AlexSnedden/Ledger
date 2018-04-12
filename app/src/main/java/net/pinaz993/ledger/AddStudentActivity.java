@@ -1,5 +1,6 @@
 package net.pinaz993.ledger;
 
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,21 +32,13 @@ public class AddStudentActivity extends AppCompatActivity {
                 student.setLastName(lastName.getText().toString());
                 student.setEmailAddress(email.getText().toString());
 
-                try {
-                    LedgerDatabase.getDb().getStudentDao().addStudent(student);
-                    Snackbar successMessage = Snackbar.make(coordinatorLayout, "Successfully added student!", 5000);
-                    successMessage.show();
-                    studentId.setText("");
-                    firstName.setText("");
-                    lastName.setText("");
-                    email.setText("");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Snackbar failureMessage = Snackbar.make(coordinatorLayout, "Failed to add student.", 5000);
-                    failureMessage.show();
-                }
+                LedgerDatabase.getDb().getStudentDao().addStudent(student);
+                goBack();
             }
         });
     }
 
+    public void goBack() {
+        startActivity(new Intent(this, EditStudents.class));
+    }
 }

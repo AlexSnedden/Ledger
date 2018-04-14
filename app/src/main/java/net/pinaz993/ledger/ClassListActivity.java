@@ -1,5 +1,7 @@
 package net.pinaz993.ledger;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,7 @@ public class ClassListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_class_list);
 
         CLASS_ID_KEY = getString(R.string.class_id_key);
+        classes = getAllClasses();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,7 +50,6 @@ public class ClassListActivity extends AppCompatActivity implements
         StudentPaneAdapter studentPaneAdapter = new StudentPaneAdapter(this, students, classID);
         studentList.setAdapter(studentPaneAdapter);
 
-        classes = getAllClasses();
         ListView optionsList = findViewById(R.id.options_list);
         optionsList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, classes));

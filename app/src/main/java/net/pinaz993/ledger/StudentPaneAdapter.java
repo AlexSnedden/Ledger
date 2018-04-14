@@ -81,6 +81,7 @@ public class StudentPaneAdapter extends ArrayAdapter {
 
         // update button states to match today's records.
         if(existingRecord != null) {
+            Log.v("MyTag", "Found existing record");
             holder.absentPresentSwitch.setChecked(existingRecord.present);
             if(existingRecord.earlyDeparture) {
                 holder.earlyDepartureBtn.setChecked(existingRecord.earlyDeparture);
@@ -191,18 +192,17 @@ public class StudentPaneAdapter extends ArrayAdapter {
             // student is present
             attendanceRecord.setPresent(true);
             if(existingRecord != null) {
-                //LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
                 LedgerDatabase.getDb().getAttendanceDao().deleteAttendance(existingRecord);
                 LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
-
+                Log.v("MyTag", String.format("replacing record: %s", attendanceRecord.present));
                 return;
             }
+            Log.v("MyTag", String.format("new record: %s", attendanceRecord.present));
             LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
         } else {
             // student is absent
             attendanceRecord.setPresent(false);
             if(existingRecord != null) {
-                //LedgerDatabase.getDb().getAttendanceDao().updateAttendance(attendanceRecord);
                 LedgerDatabase.getDb().getAttendanceDao().deleteAttendance(existingRecord);
                 LedgerDatabase.getDb().getAttendanceDao().recordAttendance(attendanceRecord);
                 return;

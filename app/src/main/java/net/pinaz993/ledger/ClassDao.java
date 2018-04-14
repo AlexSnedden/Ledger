@@ -12,7 +12,10 @@ import android.arch.persistence.room.Query;
 public interface ClassDao {
     String clearTableQuery = "DELETE FROM Classes";
     String getAllClassesQuery = "SELECT * FROM Classes";
+    String getClassById = "SELECT * FROM Classes WHERE id = :id LIMIT 1";
 
+    @Query(getClassById)
+    Class getClassById(String id);
     @Query(getAllClassesQuery)
     Class[] getAllClasses();
     @Insert

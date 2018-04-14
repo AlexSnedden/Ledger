@@ -32,8 +32,14 @@ public class AddStudentActivity extends AppCompatActivity {
                 student.setLastName(lastName.getText().toString());
                 student.setEmailAddress(email.getText().toString());
 
-                LedgerDatabase.getDb().getStudentDao().addStudent(student);
-                goBack();
+                MessageDialog messageDialog = new MessageDialog();
+
+                try {
+                    LedgerDatabase.getDb().getStudentDao().addStudent(student);
+                    goBack();
+                } catch (Exception e) {
+
+                }
             }
         });
     }

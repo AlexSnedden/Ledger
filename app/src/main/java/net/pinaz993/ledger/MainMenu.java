@@ -84,12 +84,21 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void takeAttendance() {
-        Intent redirect = new Intent(this, ClassListActivity.class);
         Class classes[] = LedgerDatabase.getDb().getClassDao().getAllClasses();
-        Bundle classListActivityBundle = new Bundle();
-        classListActivityBundle.putString("CLASS_ID", classes[0].id);
-        redirect.putExtras(classListActivityBundle);
-        startActivity(redirect);
+        if(classes.length == 0) {
+            MessageDialog messageDialog = new MessageDialog();
+            Bundle bundle = new Bundle();
+            bundle.putString("message", "No classes have been added yet!");
+            bundle.putString("button text", "Ok");
+            messageDialog.setArguments(bundle);
+            messageDialog.show(getFragmentManager(), "No classes");
+        } else {
+            Intent redirect = new Intent(this, ClassListActivity.class);
+            Bundle classListActivityBundle = new Bundle();
+            classListActivityBundle.putString("CLASS_ID", classes[0].id);
+            redirect.putExtras(classListActivityBundle);
+            startActivity(redirect);
+        }
     }
 
     private void addClass() {
@@ -126,8 +135,22 @@ public class MainMenu extends AppCompatActivity {
         String attendanceFileString = "", behaviorFileString = "";
         attendanceFileString += "Date,Class,Name,Present/Absent,Left Early/On Time,Arrived Late/On Time,Excused\n";
         behaviorFileString += "Date,Class,Name,Behavior,Pos/Neg/Neutral\n";
+        Class[] classes = LedgerDatabase.getDb().getClassDao().getAllClasses();
+        Attendance[] attendances;
+        for(Class _class: classes) {
+            attendances = LedgerDatabase.getDb().getAttendanceDao().getRecordsForClass(_class.toString());
+            for(Attendance attendance: attendances) {
+                attendanceFileString += String.format("%s,%s,%s,%s,%s,%s,%s\n",
+                        attendance.getDate(),
+                        LedgerDatabase.getDb().getClassDao().getClassById(attendance.getClassId()).toString(),
+                        LedgerDatabase.getDb().getStudentDao().getStudent(attendance.getStudentId()),
+                        (attendance.present) ? "present" : "absent",
+                        (attendance.earlyDeparture) ? "departed early" : "departed on time",
+                        (attendance.lateArrival) ? "arrived late" : "arrived on time",
+                        (attendance.excused) ? "excused" : "");
+               }
+        }
 
-        
 
         attendanceFileOutputStream.write(attendanceFileString.getBytes());
         behaviorFileOutputStream.write(behaviorFileString.getBytes());

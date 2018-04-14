@@ -79,5 +79,5 @@ public class Attendance {
     // takes the form "MM-YYYY-DD"
     public String date;
 
-    public boolean present, lateArrival, earlyDeparture, excused = false;
+    public boolean present = false, lateArrival = false, earlyDeparture = false, excused = false;
 }

@@ -32,7 +32,6 @@ public class LoadingActivity extends AppCompatActivity {
         b1.setName("b1");
         Behavior b2 = new Behavior();
         b2.setId("afsdfwivnfvbeuvbsuvbek");
-        b2.setName("jerkin it");
 
         //LedgerDatabase.getDb().getBehaviorDao().addBehavior(b1);
         //LedgerDatabase.getDb().getBehaviorDao().addBehavior(b2);

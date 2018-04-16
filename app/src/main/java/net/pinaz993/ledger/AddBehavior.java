@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.content.Intent;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,17 +11,20 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 public class AddBehavior extends AppCompatActivity {
-
+    ToggleButton positiveBtn;
+    ToggleButton neutralBtn;
+    ToggleButton negativeBtn;
+    EditText behaviorName;
+    EditText behaviorId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_behavior);
 
-        final ToggleButton positiveBtn = findViewById(R.id.positiveBtn);
-        final ToggleButton neutralBtn = findViewById(R.id.neutralBtn);
-        final ToggleButton negativeBtn = findViewById(R.id.negativeBtn);
-        final EditText behaviorName = findViewById(R.id.behaviorNameInput);
-        final EditText behaviorId = findViewById(R.id.behaviorIdInput);
+        positiveBtn = findViewById(R.id.positiveBtn);
+        neutralBtn = findViewById(R.id.neutralBtn);
+        negativeBtn = findViewById(R.id.negativeBtn);
+        behaviorName = findViewById(R.id.behaviorNameInput);
         Button addBehaviorBtn = findViewById(R.id.addBehaviorButton);
         neutralBtn.setChecked(true);
 
@@ -57,7 +61,8 @@ public class AddBehavior extends AppCompatActivity {
             public void onClick(View view) {
                 Behavior behavior = new Behavior();
                 behavior.setName(behaviorName.getText().toString());
-                behavior.setId(behaviorId.getText().toString());
+                behavior.setId(ObjectIds.getLatestBehaviorId());
+                ObjectIds.updateBehaviorId();
                 if(!neutralBtn.isChecked()) {
                     if(!positiveBtn.isChecked()) {
                         behavior.setPositivity(-1);
@@ -66,16 +71,31 @@ public class AddBehavior extends AppCompatActivity {
                     }
                 }
                 addBehavior(behavior);
-                goBack();
             }
         });
     }
 
     public void addBehavior(Behavior behavior) {
-        LedgerDatabase.getDb().getBehaviorDao().addBehavior(behavior);
+        MessageDialog messageDialog = new MessageDialog();
+        Bundle bundle = new Bundle();
+        try {
+            LedgerDatabase.getDb().getBehaviorDao().addBehavior(behavior);
+            bundle.putString("message", "Behavior added!");
+            behaviorName.setText("");
+            positiveBtn.setChecked(false);
+            neutralBtn.setChecked(false);
+            negativeBtn.setChecked(false);
+        } catch(Exception e) {
+            bundle.putString("message", "Failed to add behavior");
+        }
+        messageDialog.show(getFragmentManager(), "");
+        messageDialog.setArguments(bundle);
+
     }
 
-    public void goBack() {
+
+    @Override
+    public void onBackPressed() {
         startActivity(new Intent(this, EditBehaviors.class));
     }
 

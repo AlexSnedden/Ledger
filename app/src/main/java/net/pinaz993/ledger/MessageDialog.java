@@ -24,21 +24,22 @@ public class MessageDialog extends DialogFragment {
         btnText = getArguments().getString("button text");
         listener = (View.OnClickListener)getArguments().get("listener");
         View view = inflater.inflate(R.layout.message_dialog_layout, container, false);
+        Button okButton = view.findViewById(R.id.okBtn);
         if(btnText != null) {
-            Button okButton = view.findViewById(R.id.okBtn);
             okButton.setText(btnText);
-            if(listener != null) {
-                okButton.setOnClickListener(listener);
-            } else {
-                // defaults to getting rid of the fragment
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        exit();
-                    }
-                });
-            }
+        } else {
+            okButton.setText("Ok");
         }
+        if(listener == null) {
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    exit();
+                }});
+        } else {
+            okButton.setOnClickListener(listener);
+        }
+
         TextView messageTextView = view.findViewById(R.id.messageTextView);
         messageTextView.setText(message);
 

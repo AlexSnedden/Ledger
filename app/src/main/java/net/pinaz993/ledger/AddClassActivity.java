@@ -27,16 +27,17 @@ public class AddClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newClass.setId(className.getText().toString());
+                MessageDialog messageDialog = new MessageDialog();
+                Bundle bundle = new Bundle();
                 try {
                     LedgerDatabase.getDb().getClassDao().addClass(newClass);
-                    Snackbar successMessage = Snackbar.make(coordinatorLayout, "Successfully added class!", 5000);
-                    successMessage.show();
+                    bundle.putString("message", "Added class!");
                     className.setText("");
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Snackbar failureMessage = Snackbar.make(coordinatorLayout, "Failed to add class.", 5000);
-                    failureMessage.show();
+                    bundle.putString("message", "Failed to add class.");
                 }
+                messageDialog.setArguments(bundle);
+                messageDialog.show(getFragmentManager(), "");
             }
 
         });

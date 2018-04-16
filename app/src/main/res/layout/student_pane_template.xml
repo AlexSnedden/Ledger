@@ -22,7 +22,6 @@
 
         <ToggleButton
             android:id="@+id/excusedBtn"
-            style="?attr/checkboxStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textOff="@string/excusedTxt"
@@ -31,7 +30,6 @@
 
         <ToggleButton
             android:id="@+id/earlyDepartureBtn"
-            style="?attr/checkboxStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textOff="@string/earlyDepartureTxt"
@@ -39,7 +37,6 @@
 
         <ToggleButton
             android:id="@+id/lateArrivalBtn"
-            style="?attr/checkboxStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textOff="@string/lateArrivalTxt"

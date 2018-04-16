@@ -15,7 +15,6 @@ public class AddStudentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
-        final EditText studentId = (EditText)findViewById(R.id.studentIdInput);
         final EditText firstName = (EditText)findViewById(R.id.firstNameInput);
         final EditText lastName = (EditText)findViewById(R.id.lastNameInput);
         final EditText email = (EditText)findViewById(R.id.studentEmailInput);
@@ -27,24 +26,31 @@ public class AddStudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Student student = new Student();
-                student.setId(studentId.getText().toString());
+                student.setId(ObjectIds.getLatestStudentId());
+                ObjectIds.updateStudentId();
                 student.setFirstName(firstName.getText().toString());
                 student.setLastName(lastName.getText().toString());
                 student.setEmailAddress(email.getText().toString());
 
                 MessageDialog messageDialog = new MessageDialog();
-
+                Bundle bundle = new Bundle();
                 try {
                     LedgerDatabase.getDb().getStudentDao().addStudent(student);
-                    goBack();
+                    bundle.putString("message", "Added student!");
+                    firstName.setText("");
+                    lastName.setText("");
+                    email.setText("");
                 } catch (Exception e) {
-
+                    bundle.putString("message", "Failed to add student.");
                 }
+                messageDialog.setArguments(bundle);
+                messageDialog.show(getFragmentManager(), "");
             }
         });
     }
 
-    public void goBack() {
+    @Override
+    public void onBackPressed() {
         startActivity(new Intent(this, EditStudents.class));
     }
 }

@@ -17,6 +17,9 @@ public interface StudentClassMappingDao {
     String getAllStudentClassMappingsQuery = "SELECT * FROM StudentClassMapping";
     String getStudentClassMappingQuery = "SELECT * FROM StudentClassMapping WHERE studentId = :studentId AND " +
                                          "classId = :classId";
+    String deleteMappingsWithStudentQuery = "DELETE FROM StudentClassMapping WHERE studentId = :studentId";
+    String deleteMappingsWithClassQuery = "DELETE FROM StudentClassMapping WHERE classId = :classId";
+
     @Query(getAllStudentsInClassQuery)
     String[] getAllStudentsInClass(String classId);
     @Query(getStudentClassMappingQuery)
@@ -27,4 +30,8 @@ public interface StudentClassMappingDao {
     void addStudentClassMapping(StudentClassMapping studentClassMapping);
     @Delete
     void deleteStudentClassMapping(StudentClassMapping studentClassMapping);
+    @Query(deleteMappingsWithClassQuery)
+    void deleteMappingsWithClass(String classId);
+    @Query(deleteMappingsWithStudentQuery)
+    void deleteMappingsWithStudent(String studentId);
 }

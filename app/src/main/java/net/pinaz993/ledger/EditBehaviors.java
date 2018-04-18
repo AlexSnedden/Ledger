@@ -1,5 +1,6 @@
 package net.pinaz993.ledger;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,30 +29,16 @@ public class EditBehaviors extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<Behavior>(this, R.layout.edit_behaviors_pane_template,
                 LedgerDatabase.getDb().getBehaviorDao().getAllBehaviors());
         behaviorList.setAdapter(adapter);
-        /*behaviorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        behaviorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Behavior behavior = (Behavior)adapterView.getItemAtPosition(i);
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-                AlertDialog.Builder builder = new AlertDialog.Builder();
-                builder.setMessage("Do you want to delete this behavior?").setPositiveButton("yes", dialogClickListener)
-                        .setNegativeButton("no", dialogClickListener).show();
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DeleteBehaviorDialog deleteBehaviorDialog = new DeleteBehaviorDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("behavior id", ((Behavior)parent.getItemAtPosition(position)).getId());
+                deleteBehaviorDialog.setArguments(bundle);
+                deleteBehaviorDialog.show(getFragmentManager(), "");
             }
-        });*/
+        });
 
         final Button addBehaviorBtn = findViewById(R.id.newBehaviorBtn);
         addBehaviorBtn.setOnClickListener(new View.OnClickListener() {
@@ -69,4 +57,5 @@ public class EditBehaviors extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(this, MainMenu.class));
     }
+
 }

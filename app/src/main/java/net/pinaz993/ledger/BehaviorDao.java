@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -12,10 +13,14 @@ import android.arch.persistence.room.Query;
 @Dao
 public interface BehaviorDao {
     String getAllBehaviorsQuery = "SELECT * FROM Behaviors";
+    String getBehaviorByIdQuery = "SELECT * FROM Behaviors WHERE id = :id LIMIT 1";
 
     @Insert
     void addBehavior(Behavior behavior);
     @Query(getAllBehaviorsQuery)
     Behavior[] getAllBehaviors();
-
+    @Query(getBehaviorByIdQuery)
+    Behavior getBehaviorById(String id);
+    @Delete
+    void deleteBehavior(Behavior behavior);
 }

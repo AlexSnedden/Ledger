@@ -13,7 +13,11 @@ import android.arch.persistence.room.Query;
 @Dao
 public interface BehaviorRecordDao {
     String getBehaviorRecordQuery = "SELECT * FROM BehaviorRecords WHERE studentId = :studentId AND "+
-                                    "behaviorId = :behaviorId AND classId = :classId AND date = :date;";
+                                    "behaviorId = :behaviorId AND classId = :classId AND date = :date";
+    String getAllBehaviorRecordsQuery = "SELECT * FROM BehaviorRecords";
+    String deleteAllRecordsWithBehaviorQuery = "DELETE FROM BehaviorRecords WHERE behaviorId = :behaviorId";
+    String deleteAllRecordsWithStudentQuery = "DELETE FROM BehaviorRecords WHERE studentId = :studentId";
+
 
     @Insert
     void recordBehaviorRecord(BehaviorRecord behaviorRecord);
@@ -21,5 +25,10 @@ public interface BehaviorRecordDao {
     void deleteBehaviorRecord(BehaviorRecord behaviorRecord);
     @Query(getBehaviorRecordQuery)
     BehaviorRecord getBehaviorRecord(String studentId, String behaviorId, String classId, String date);
-
+    @Query(getAllBehaviorRecordsQuery)
+    BehaviorRecord[] getAllBehaviorRecords();
+    @Query(deleteAllRecordsWithBehaviorQuery)
+    void deleteAllRecordsWithBehavior(String behaviorId);
+    @Query(deleteAllRecordsWithStudentQuery)
+    void deleteAllRecordsWithStudent(String studentId);
 }

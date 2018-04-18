@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -57,7 +58,6 @@ public class EditStudentsClassesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 StudentClassMapping mapping = (StudentClassMapping)adapterView.getItemAtPosition(i);
                 CheckBox checkbox = (CheckBox) view;
-                Log.v("MyTag", "I was called");
                 if(!checkbox.isChecked()) {
                     // student was added to class
                     try {
@@ -89,6 +89,7 @@ public class EditStudentsClassesActivity extends AppCompatActivity {
             checkbox.setText(mapping.getClassId());
             checkbox.setClickable(false);
             checkbox.setFocusable(false);
+            checkbox.setTextColor(Color.BLACK);
             // check if student is in class. If so, set the check on
             if(LedgerDatabase.getDb().getStudentClassMappingDao().getStudentClassMapping(
                     mapping.getStudentId(), mapping.getClassId()) != null) {

@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RoomDatabase;
@@ -18,17 +19,20 @@ public interface StudentDao {
 
     /* Deletes all entry from the database */
     @Query(clearTableQuery)
-    public abstract void clearTable();
+    void clearTable();
 
     /* Inserts a student into the database */
     @Insert
-    public abstract void addStudent(Student student);
+    void addStudent(Student student);
 
     /* Retrieves information for a student in the database */
     @Query(getStudentQuery)
-    public abstract Student getStudent(String studentId);
+    Student getStudent(String studentId);
 
     @Query(getAllStudentsQuery)
-    public abstract Student[] getAllStudents();
+    Student[] getAllStudents();
+
+    @Delete
+    void deleteStudent(Student student);
 
 }

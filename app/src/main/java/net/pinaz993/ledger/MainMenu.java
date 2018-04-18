@@ -35,6 +35,7 @@ public class MainMenu extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Ledger");
 
+
         Button takeAttendanceBtn = findViewById(R.id.takeAttendanceBtn);
         Button addClassBtn = findViewById(R.id.addAClassBtn);
         Button editStudentsBtn = findViewById(R.id.editStudentsBtn);
@@ -150,7 +151,28 @@ public class MainMenu extends AppCompatActivity {
                         (attendance.excused) ? "excused" : "");
                }
         }
-
+        Student[] students = LedgerDatabase.getDb().getStudentDao().getAllStudents();
+        for(Student student: students) {
+            BehaviorRecord[] behaviorRecords = LedgerDatabase.getDb().getBehaviorRecordDao().getAllBehaviorRecords();
+            for(BehaviorRecord behaviorRecord: behaviorRecords) {
+                Behavior behavior = LedgerDatabase.getDb().getBehaviorDao().getBehaviorById(behaviorRecord.getBehaviorId());
+                String positivity = null;
+                switch(behavior.getPositivity()) {
+                    case 1: positivity = "Positive";
+                            break;
+                    case 0: positivity = "Neutral";
+                            break;
+                    case -1: positivity = "Negative";
+                            break;
+                }
+                behaviorFileString += String.format("%s,%s,%s,%s,%s\n",
+                        behaviorRecord.getDate(),
+                        LedgerDatabase.getDb().getClassDao().getClassById(behaviorRecord.getClassId()).id,
+                        student.getFirstName() + student.getLastName(),
+                        behavior.getName(),
+                        positivity);
+            }
+        }
 
         attendanceFileOutputStream.write(attendanceFileString.getBytes());
         behaviorFileOutputStream.write(behaviorFileString.getBytes());

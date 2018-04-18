@@ -14,36 +14,45 @@ import java.util.HashMap;
  * A DAO for accessing  records
  */
 @Dao
-public abstract class AttendanceDao {
-    final String getRecordQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId AND " +
+public interface AttendanceDao {
+    String getRecordQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId AND " +
                             "classId = :classId AND date = :date LIMIT 1;";
-    final String getRecordsForStudentQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId;";
-    final String getRecordsForClassQuery = "SELECT * FROM AttendanceRecords WHERE classId = :classId;";
-    final String getRecordsForStudentInClassQuery = "SELECT * FROM AttendanceRecords WHERE " +
+    String getRecordsForStudentQuery = "SELECT * FROM AttendanceRecords WHERE studentId = :studentId;";
+    String getRecordsForClassQuery = "SELECT * FROM AttendanceRecords WHERE classId = :classId;";
+    String getRecordsForStudentInClassQuery = "SELECT * FROM AttendanceRecords WHERE " +
                                                     "studentId = :studentId AND classId = :classId;";
-    final String clearTableQuery = "DELETE FROM AttendanceRecords";
+    String clearTableQuery = "DELETE FROM AttendanceRecords";
+    String deleteRecordsWithStudentQuery = "DELETE FROM AttendanceRecords WHERE studentId = :studentId";
+    String deleteRecordsWithClassQuery = "DELETE FROM AttendanceRecords WHERE classId = :classId";
+
 
     @Delete
-    public abstract void deleteAttendance(Attendance attendance);
+    void deleteAttendance(Attendance attendance);
 
     @Insert
-    public abstract void recordAttendance(Attendance attendance);
+    void recordAttendance(Attendance attendance);
 
     @Update
-    public abstract void updateAttendance(Attendance attendance);
+    void updateAttendance(Attendance attendance);
 
     @Query(getRecordQuery)
-    public abstract Attendance getRecord(String studentId, String classId, String date);
+    Attendance getRecord(String studentId, String classId, String date);
 
     @Query(getRecordsForStudentQuery)
-    public abstract Attendance[] getRecordsForStudent(String studentId);
+    Attendance[] getRecordsForStudent(String studentId);
 
     @Query(getRecordsForClassQuery)
-    public abstract Attendance[] getRecordsForClass(String classId);
+    Attendance[] getRecordsForClass(String classId);
 
     @Query(getRecordsForStudentInClassQuery)
-    public abstract Attendance[] getRecordsForStudentInClass(String studentId, String classId);
+    Attendance[] getRecordsForStudentInClass(String studentId, String classId);
 
     @Query(clearTableQuery)
-    public abstract void clearTable();
+    void clearTable();
+
+    @Query(deleteRecordsWithClassQuery)
+    void deleteRecordsWithClass(String classId);
+
+    @Query(deleteRecordsWithStudentQuery)
+    void deleteRecordsWithStudent(String studentId);
 }

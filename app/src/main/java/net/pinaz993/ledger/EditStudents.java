@@ -40,6 +40,17 @@ public class EditStudents extends AppCompatActivity {
                 editStudentsClasses(student.getId());
             }
         });
+        studentList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putString("student id", ((Student)adapterView.getItemAtPosition(i)).getId());
+                DeleteStudentDialog deleteStudentDialog = new DeleteStudentDialog();
+                deleteStudentDialog.setArguments(bundle);
+                deleteStudentDialog.show(getFragmentManager(), "");
+                return true;
+            }
+        });
     }
 
     private void addNewStudent() {

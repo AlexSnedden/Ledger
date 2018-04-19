@@ -33,6 +33,7 @@ public class LoadingActivity extends AppCompatActivity {
             LedgerDatabase.getDb().getObjectIdsDao().addObjectIds(objectIds);
         }
 
+        generateDummyStudents();
         Intent redirect = new Intent(this, MainMenu.class);
         startActivity(redirect);
     }
@@ -52,7 +53,6 @@ public class LoadingActivity extends AppCompatActivity {
         Class _class = null;
         Student student = null;
         StudentClassMapping mapping = null;
-        int l = 100;
         for(int i=0; i < 1; i++) {
             _class = new Class();
             _class.setId(String.format("Class %d", i));
@@ -71,7 +71,6 @@ public class LoadingActivity extends AppCompatActivity {
                 LedgerDatabase.getDb().getStudentDao().addStudent(student);
                 LedgerDatabase.getDb().getStudentClassMappingDao().addStudentClassMapping(mapping);
             }
-            l += 412432;
         }
     }
 }

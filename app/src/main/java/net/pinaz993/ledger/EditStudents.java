@@ -30,7 +30,7 @@ public class EditStudents extends AppCompatActivity {
         });
 
         ListView studentList = findViewById(R.id.studentListView);
-        ArrayAdapter adapter = new ArrayAdapter<Student>(this,
+        ArrayAdapter adapter = new ArrayAdapter<>(this,
                 R.layout.edit_students_pane_template, LedgerDatabase.getDb().getStudentDao().getAllStudents());
         studentList.setAdapter(adapter);
         studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,6 +51,11 @@ public class EditStudents extends AppCompatActivity {
                 return true;
             }
         });
+        MessageDialog messageDialog = new MessageDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("message", "Press a student to modify their classes. Press and hold a student to delete them.");
+        messageDialog.setArguments(bundle);
+        messageDialog.show(getFragmentManager(), "");
     }
 
     private void addNewStudent() {

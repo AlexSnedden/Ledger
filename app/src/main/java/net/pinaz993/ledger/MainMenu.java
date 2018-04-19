@@ -56,7 +56,7 @@ public class MainMenu extends AppCompatActivity {
         addClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addClass();
+                editClasses();
             }
         });
         editStudentsBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +102,8 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    private void addClass() {
-        Intent redirect = new Intent(this, AddClassActivity.class);
+    private void editClasses() {
+        Intent redirect = new Intent(this, EditClasses.class);
         startActivity(redirect);
     }
 
@@ -186,7 +186,10 @@ public class MainMenu extends AppCompatActivity {
         emailIntent.setType("message/rfc822");
         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Ledger Data Export");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "This is an email from Ledger");
+        ArrayList<String> extra_text = new ArrayList<String>();
+        extra_text.add("This is an email from Ledger");
+        //emailIntent.putExtra(Intent.EXTRA_TEXT, );
+        emailIntent.putStringArrayListExtra(Intent.EXTRA_TEXT, extra_text);
         startActivity(Intent.createChooser(emailIntent, "send email"));
     }
 

@@ -2,6 +2,7 @@ package net.pinaz993.ledger;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,9 @@ public class AddClassActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, EditClasses.class));
+    }
 }
 

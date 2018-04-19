@@ -21,6 +21,7 @@
         <activity android:name=".ChooseActivity" />
         <activity android:name=".ClassListActivity" />
         <activity android:name=".StudentRecords" />
+        <activity android:name=".EditClasses" />
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"

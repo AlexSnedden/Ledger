@@ -1,6 +1,7 @@
 package net.pinaz993.ledger;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -20,6 +21,8 @@ public interface ClassDao {
     Class[] getAllClasses();
     @Insert
     void addClass(Class newClass);
+    @Delete
+    void deleteClass(Class classObject);
     @Query(clearTableQuery)
     void clearTable();
 

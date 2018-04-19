@@ -17,6 +17,7 @@ public interface BehaviorRecordDao {
     String getAllBehaviorRecordsQuery = "SELECT * FROM BehaviorRecords";
     String deleteAllRecordsWithBehaviorQuery = "DELETE FROM BehaviorRecords WHERE behaviorId = :behaviorId";
     String deleteAllRecordsWithStudentQuery = "DELETE FROM BehaviorRecords WHERE studentId = :studentId";
+    String deleteAllRecordsWithClassQuery = "DELETE FROM BehaviorRecords WHERE classId = :classId";
 
 
     @Insert
@@ -31,4 +32,6 @@ public interface BehaviorRecordDao {
     void deleteAllRecordsWithBehavior(String behaviorId);
     @Query(deleteAllRecordsWithStudentQuery)
     void deleteAllRecordsWithStudent(String studentId);
+    @Query(deleteAllRecordsWithClassQuery)
+    void deleteAllRecordsWithClass(String classId);
 }

@@ -99,5 +99,8 @@ public class AddBehavior extends AppCompatActivity {
         startActivity(new Intent(this, EditBehaviors.class));
     }
 
+    public void goHome(View view) {
+        startActivity(new Intent(this, MainMenu.class));
+    }
 
 }

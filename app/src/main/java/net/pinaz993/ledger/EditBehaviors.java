@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,12 @@ public class EditBehaviors extends AppCompatActivity {
                 addBehavior();
             }
         });
+
+        MessageDialog messageDialog = new MessageDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("message", "Press a behavior to delete it.");
+        messageDialog.setArguments(bundle);
+        messageDialog.show(getFragmentManager(), "");
     }
     private void addBehavior() {
         Intent redirect = new Intent(this, AddBehavior.class);
@@ -58,4 +65,7 @@ public class EditBehaviors extends AppCompatActivity {
         startActivity(new Intent(this, MainMenu.class));
     }
 
+    public void goHome(View view) {
+        startActivity(new Intent(this, MainMenu.class));
+    }
 }

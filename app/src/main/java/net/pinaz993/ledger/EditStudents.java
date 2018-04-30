@@ -72,4 +72,8 @@ public class EditStudents extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(this, MainMenu.class));
     }
+
+    public void goHome(View view) {
+        startActivity(new Intent(this, MainMenu.class));
+    }
 }

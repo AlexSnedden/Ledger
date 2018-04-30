@@ -18,17 +18,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentListView" />
+        app:layout_constraintTop_toBottomOf="@+id/studentListView"
+        app:layout_constraintVertical_bias="0.089" />
 
     <ListView
         android:id="@+id/studentListView"
         android:layout_width="335dp"
-        android:layout_height="490dp"
-        android:layout_marginBottom="68dp"
+        android:layout_height="430dp"
+        android:layout_marginBottom="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@mipmap/ic_launcher"
+        android:src="@drawable/home_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="goHome"/>
 </android.support.constraint.ConstraintLayout>

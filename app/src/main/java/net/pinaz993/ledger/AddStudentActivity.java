@@ -53,4 +53,8 @@ public class AddStudentActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(this, EditStudents.class));
     }
+
+    public void goHome(View view) {
+        startActivity(new Intent(this, MainMenu.class));
+    }
 }

@@ -33,7 +33,7 @@ public class LoadingActivity extends AppCompatActivity {
             LedgerDatabase.getDb().getObjectIdsDao().addObjectIds(objectIds);
         }
 
-        generateDummyStudents();
+        //generateDummyStudents();
         Intent redirect = new Intent(this, MainMenu.class);
         startActivity(redirect);
     }
